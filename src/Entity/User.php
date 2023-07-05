@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastName = null;
 
     #[ORM\Column]
-    private ?bool $isTrainer = null;
+    private ?bool $isTrainer = false;
 
     public function getId(): ?int
     {
