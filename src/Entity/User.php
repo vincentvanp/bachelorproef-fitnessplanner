@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -36,6 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $isTrainer = false;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Training::class)]
+    private Collection $receivedTrainings;
+
+    #[ORM\OneToMany(mappedBy: 'coach', targetEntity: Training::class)]
+    private Collection $givenTrainings;
+
+    public function __construct()
+    {
+        $this->receivedTrainings = new ArrayCollection();
+        $this->givenTrainings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,6 +153,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsTrainer(bool $isTrainer): static
     {
         $this->isTrainer = $isTrainer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Training>
+     */
+    public function getReceivedTrainings(): Collection
+    {
+        return $this->receivedTrainings;
+    }
+
+    public function addReceivedTrainings(Training $training): self
+    {
+        if (!$this->receivedTrainings->contains($training)) {
+            $this->receivedTrainings->add($training);
+            $training->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceivedTraining(Training $training): self
+    {
+        if ($this->receivedTrainings->removeElement($training)) {
+            // set the owning side to null (unless already changed)
+            if ($training->getClient() === $this) {
+                $training->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Training>
+     */
+    public function getGivenTrainings(): Collection
+    {
+        return $this->givenTrainings;
+    }
+
+    public function addGivenTrainings(Training $training): self
+    {
+        if (!$this->givenTrainings->contains($training)) {
+            $this->givenTrainings->add($training);
+            $training->setCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGivenTraining(Training $training): self
+    {
+        if ($this->givenTrainings->removeElement($training)) {
+            // set the owning side to null (unless already changed)
+            if ($training->getCoach() === $this) {
+                $training->setCoach(null);
+            }
+        }
 
         return $this;
     }

@@ -14,6 +14,21 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    #[Route('/', name: 'app_default')]
+    public function defaultRoute(): Response
+    {
+        $user = $this->getUser();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        //TODO Rollen checken en doorverwijzen naar juiste agenda
+        if($user->isIsTrainer()) {
+            return $this->redirectToRoute('app_coach_agenda');
+        }
+        return $this->redirectToRoute('app_client_agenda');
+    }
+
     #[Route('/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -52,7 +67,10 @@ class SecurityController extends AbstractController
             $entityManager->flush();
             // $this->addFlash('success', $translator->trans('user.register.success'));
 
-            return $this->redirectToRoute('app_default');
+            if($user->isIsTrainer) {
+                return $this->redirectToRoute('app_client_agenda');
+            }
+            return $this->redirectToRoute('app_coach_agenda');
         }
 
         return $this->render('security/register.html.twig', [
