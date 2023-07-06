@@ -45,10 +45,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'coach', targetEntity: Training::class)]
     private Collection $givenTrainings;
 
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
+    private Collection $role;
+
     public function __construct()
     {
         $this->receivedTrainings = new ArrayCollection();
         $this->givenTrainings = new ArrayCollection();
+        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +217,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $training->setCoach(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getRole(): Collection
+    {
+        return $this->role;
+    }
+
+    public function addRole(Role $role): static
+    {
+        if (!$this->role->contains($role)) {
+            $this->role->add($role);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): static
+    {
+        $this->role->removeElement($role);
 
         return $this;
     }

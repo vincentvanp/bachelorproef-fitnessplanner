@@ -6,12 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CoachAgendaController extends AbstractController
+class CoachCalendarController extends AbstractController
 {
-    #[Route('/coach/agenda', name: 'app_coach_agenda')]
+    #[Route('/coach/calendar', name: 'app_coach_calendar')]
     public function index(): Response
     {
-        return $this->render('client_agenda/index.html.twig', [
+        return $this->render('calendar/coach/index.html.twig', [
             'trainings' => $this->getUser()->getGivenTrainings()->toArray(),
         ]);
     }

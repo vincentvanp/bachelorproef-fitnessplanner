@@ -22,11 +22,18 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        //TODO Rollen checken en doorverwijzen naar juiste agenda
-        if($user->isIsTrainer()) {
-            return $this->redirectToRoute('app_coach_agenda');
+        $role = $user->getRole();
+        
+        if(count($role) != 1) { //TODO Pagina fiksen 
+            return $this->render('calendar/both/index.html.twig');
         }
-        return $this->redirectToRoute('app_client_agenda');
+
+        $role = $role->first();
+
+        if($role->getName() == "coach") {
+            return $this->redirectToRoute('app_coach_calendar');
+        }
+        return $this->redirectToRoute('app_client_calendar');
     }
 
     #[Route('/login', name: 'app_login')]
