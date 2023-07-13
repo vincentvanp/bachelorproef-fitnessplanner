@@ -74,10 +74,7 @@ class SecurityController extends AbstractController
             $entityManager->flush();
             // $this->addFlash('success', $translator->trans('user.register.success'));
 
-            if($user->isIsTrainer) {
-                return $this->redirectToRoute('app_client_agenda');
-            }
-            return $this->redirectToRoute('app_coach_agenda');
+            return $this->redirectToRoute('app_client_agenda');
         }
 
         return $this->render('security/register.html.twig', [
