@@ -23,44 +23,44 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'email',
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-control-lg mt-5',
                     'id' => 'inputEmail',
                     'type' => 'email',
-                    'placeholder' => 'name@example.com',
+                    'placeholder' => 'Email',
                 ],
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'password',
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-control-lg mt-5',
                     'type' => 'password',
                     'id' => 'inputPassword',
                     'placeholder' => 'Create a password',
                 ],
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'First name',
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-control-lg mt-5',
                     'id' => 'inputFirstName',
                     'type' => 'text',
-                    'placeholder' => 'Enter a name',
+                    'placeholder' => 'First name',
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Last name',
+                'label' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-control-lg mt-5',
                     'id' => 'inputFirstName',
                     'type' => 'text',
-                    'placeholder' => 'Enter a name',
+                    'placeholder' => 'Last name',
                 ],
             ])    
             ->add('save', SubmitType::class, [
                 'label' => 'Create account',
-                'attr' => ['class' => 'btn btn-primary btn-block'],
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100'],
             ]);
     }
 
