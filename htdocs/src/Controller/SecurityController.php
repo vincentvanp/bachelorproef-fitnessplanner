@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Repository\RoleRepository;
 
 class SecurityController extends AbstractController
 {
@@ -18,9 +19,6 @@ class SecurityController extends AbstractController
     public function defaultRoute(): Response
     {
         $user = $this->getUser();
-        if(!$user) {
-            return $this->redirectToRoute('app_login');
-        }
 
         $role = $user->getRole();
         
@@ -50,7 +48,11 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher): Response
+    public function register(
+        Request $request, 
+        ManagerRegistry $doctrine, 
+        UserPasswordHasherInterface $passwordHasher,
+        RoleRepository $roleRepository): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -69,12 +71,13 @@ class SecurityController extends AbstractController
                 $user,
                 $user->getPassword()
             ));
+            $user->addRole($roleRepository->find(2));
             $entityManager = $doctrine->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             // $this->addFlash('success', $translator->trans('user.register.success'));
 
-            return $this->redirectToRoute('app_client_agenda');
+            return $this->redirectToRoute('app_client_calendar');
         }
 
         return $this->render('security/register.html.twig', [
