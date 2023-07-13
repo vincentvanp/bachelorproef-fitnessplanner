@@ -25,7 +25,7 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-5',
+                    'class' => 'form-control form-control-lg mt-4',
                     'id' => 'inputEmail',
                     'type' => 'email',
                     'placeholder' => 'Email',
@@ -34,7 +34,7 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-5',
+                    'class' => 'form-control form-control-lg mt-4',
                     'type' => 'password',
                     'id' => 'inputPassword',
                     'placeholder' => 'Create a password',
@@ -43,7 +43,7 @@ class UserType extends AbstractType
             ->add('firstName', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-5',
+                    'class' => 'form-control form-control-lg mt-4',
                     'id' => 'inputFirstName',
                     'type' => 'text',
                     'placeholder' => 'First name',
@@ -52,7 +52,7 @@ class UserType extends AbstractType
             ->add('lastName', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-5',
+                    'class' => 'form-control form-control-lg mt-4',
                     'id' => 'inputFirstName',
                     'type' => 'text',
                     'placeholder' => 'Last name',
@@ -60,7 +60,7 @@ class UserType extends AbstractType
             ])    
             ->add('save', SubmitType::class, [
                 'label' => 'Create account',
-                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100'],
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
             ]);
     }
 

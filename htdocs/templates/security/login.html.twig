@@ -20,21 +20,19 @@
 
                 <div class="d-flex align-items-center h-custom-3 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
 
-                    <form style="width: 23rem;" action="{{ path('app_login') }}" method="post">
+                    <form style="width: 35rem;" action="{{ path('app_login') }}" method="post">
 
                         <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
 
-                        <div class="form-outline mb-4">
-                        <label class="form-label" for="username">Email address</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control form-control-lg">
+                        <div class="form-outline mb-4 mt-4">
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control form-control-lg" placeholder="Email address">
                         </div>
 
-                        <div class="form-outline mb-4">
-                        <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" name="_password" class="form-control form-control-lg">
+                        <div class="form-outline mb-4 mt-4">
+                        <input type="password" id="password" name="_password" class="form-control form-control-lg"  placeholder="Password">
                         </div>
 
-                        <div class="pt-1 mb-4">
+                        <div class="pt-1 mb-4 mt-4">
                         <button class="btn btn-info btn-lg btn-block w-100" type="submit">Login</button>
                         </div>
 
