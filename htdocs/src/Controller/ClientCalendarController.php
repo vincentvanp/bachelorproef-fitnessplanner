@@ -11,7 +11,7 @@ class ClientCalendarController extends AbstractController
     #[Route('/client/calendar', name: 'app_client_calendar')]
     public function index(): Response
     {
-        return $this->render('calendar/client/index.html.twig', [
+        return $this->render('client/index.html.twig', [
             'trainings' => $this->getUser()->getReceivedTrainings()->toArray(),
         ]);
     }
