@@ -35,10 +35,11 @@
 							<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" style="width: 100%;">
 								<thead>
 									<tr role="row">
-										<th style="width: 25%;">Name</th>
-										<th style="width: 25%;">Training</th>
-										<th style="width: 25%;">Food</th>
-										<th style="width: 25%;">Progress</th>
+										<th style="width: 40%;">Name</th>
+										<th style="width: 15%;">Training</th>
+										<th style="width: 15%;">Food</th>
+										<th style="width: 15%;">Progress</th>
+										<th style="width: 15%;">Delete</th>
 									</tr>
 								</thead>
 								<!--<tfoot>
@@ -50,15 +51,15 @@
 									</tr>
 								</tfoot>-->
 								<tbody>
-
-                                                                        {% for client in clients %}
-                                                                                <tr>
-										        <td>{{ client.firstname }} {{ client.lastname }}</td>
-										        <td><a href="#">Training</a></td>
-										        <td><a href="#">Food</a></td>
-										        <td><a href="#">Progress</a></td>
-									        </tr>
-                                                                        {% endfor %}
+                                    {% for client in clients %}
+                                        <tr>
+										    <td>{{ client.firstname }} {{ client.lastname }}</td>
+										    <td><a href="#">Training</a></td>
+										    <td><a href="#">Food</a></td>
+										    <td><a href="#">Progress</a></td>
+											<td><a href="{{ path('app_coach_client_remove_confirm', { 'id': client.id }) }}">Delete client</a></td>
+									    </tr>
+                                    {% endfor %}
 								</tbody>
 							</table>
 						</div>
