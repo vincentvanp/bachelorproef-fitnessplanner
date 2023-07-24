@@ -50,7 +50,7 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" aria-expanded="true">
+                    <a class="nav-link" href="{{ path('app_coach') }}" aria-expanded="true">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Overview</span>
                     </a>
@@ -58,17 +58,9 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" aria-expanded="true">
+                    <a class="nav-link" href="{{ path('app_coach_client_add') }}" aria-expanded="true">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Add client</span>
-                    </a>
-                </li>
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" aria-expanded="true">
-                        <i class="fas fa-fw fa-cog"></i>
-                        <span>Remove client</span>
                     </a>
                 </li>
 
@@ -173,7 +165,7 @@
                                     Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ logout_url(key = null) }}" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ logout_url(key = null) }}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -188,10 +180,28 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">{% block mainContentTitle %}{% endblock %}</h1>
+                {% block body %}{% endblock %}
+
+                </div>
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © Your Website 2021</span>
                     </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
 
 </body>
 

@@ -48,11 +48,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     private Collection $role;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'clients')]
+    #[ORM\JoinTable(name: 'client_coach')]
+    #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'id')]
+    private Collection $coaches;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'coaches')]
+    #[ORM\JoinTable(name: 'client_coach')]
+    #[ORM\JoinColumn(name: 'coach_id', referencedColumnName: 'id')]
+    private Collection $clients;
+
     public function __construct()
     {
         $this->receivedTrainings = new ArrayCollection();
         $this->givenTrainings = new ArrayCollection();
         $this->role = new ArrayCollection();
+        $this->coaches = new ArrayCollection();
+        $this->clients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,6 +253,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeRole(Role $role): static
     {
         $this->role->removeElement($role);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCoaches(): Collection
+    {
+        return $this->coaches;
+    }
+
+    public function addCoach(self $coach): static
+    {
+        if (!$this->coaches->contains($coach)) {
+            $this->coaches->add($coach);
+        }
+
+        return $this;
+    }
+
+    public function removeCoach(self $coach): static
+    {
+        $this->coaches->removeElement($coach);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(self $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->addCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(self $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            $client->removeCoach($this);
+        }
 
         return $this;
     }
