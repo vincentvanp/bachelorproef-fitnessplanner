@@ -52,6 +52,7 @@
 /.web-server-pid
 
 .DS_Store
+.idea
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
