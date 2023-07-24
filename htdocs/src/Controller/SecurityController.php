@@ -48,14 +48,31 @@ class SecurityController extends AbstractController
         
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register/{coach}/{email}', name: 'app_register')]
     public function register(
         Request $request, 
         ManagerRegistry $doctrine, 
         UserPasswordHasherInterface $passwordHasher,
-        RoleRepository $roleRepository): Response
+        RoleRepository $roleRepository,
+        User $coach = null,
+        string $email = null): Response
     {
+        $user = $doctrine->getRepository(User::class)->findOneBy(array('email' => $email));
+        if($user) {
+            //dd('hey');
+            //dd($user);
+            //$this->addFlash('message', 'You are added as a client'); //TODO Fixen
+            //$user->addCoach($coach);
+            //$this->redirectToRoute('app_login');
+        }
         $user = new User();
+        if($coach != null ) {
+            if($coach->getRole()->first()->getName() == 'coach') {
+                $user->addCoach($coach);
+                $user->setEmail($email);
+
+            }
+        }
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -73,6 +90,7 @@ class SecurityController extends AbstractController
                 $user->getPassword()
             ));
             $user->addRole($roleRepository->find(2));
+
             $entityManager = $doctrine->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -86,5 +104,11 @@ class SecurityController extends AbstractController
             'security' => 1,
         ]);
     }
+
+    /*#[Route('/register/client/{id}/{email}')]
+    public function registerClient(User $coach, string $email): Response
+    {
+
+    }*/
 
 }

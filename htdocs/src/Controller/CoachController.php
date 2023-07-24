@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class CoachController extends AbstractController
 {
@@ -42,11 +42,15 @@ class CoachController extends AbstractController
             // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
             
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from('vincent.vp@icloud.com')
                 ->to($data['email'])
                 ->subject('Time for Symfony Mailer!')
-                ->text($data['message']);
+                ->htmlTemplate('emails/signup.html.twig')
+                ->context([
+                    'coach' => $this->getUser(),
+                    'adress' => $data['email'],
+                ]);
 
             $this->mailer->send($email);
 

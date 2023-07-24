@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class ClientType extends AbstractType
 {
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {
@@ -56,7 +56,7 @@ class UserType extends AbstractType
                     'type' => 'text',
                     'placeholder' => 'Last name',
                 ],
-            ])    
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Create account',
                 'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
