@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+<h1 class="h3 mb-2 text-gray-800">Delete client</h1>
+<p class="mb-4">Are you sure you want to remove {{ client.firstname }} {{ client.lastname }} as a client?</p>
+<a href="{{ path('app_coach') }}">No pls go back</a>
+<a href="{{ path('app_coach_client_remove', { 'id': client.id }) }}">Yes pls</a>
+
+{% endblock %}

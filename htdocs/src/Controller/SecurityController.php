@@ -29,7 +29,7 @@ class SecurityController extends AbstractController
         $role = $role->first();
 
         if($role->getName() == "coach") {
-            return $this->redirectToRoute('app_coach_calendar');
+            return $this->redirectToRoute('app_coach');
         }
         return $this->redirectToRoute('app_client_calendar');
     }
