@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TrainingController!{% endblock %}
+
+{% block body %}
+
+    {{ form(dateFilter) }}
+
+    {% for training in trainings %}
+
+        {{ training.title }} {{ training.startTime|date('Y-m-d H:i:s') }}
+
+    {% endfor %}
+
+{% endblock %}

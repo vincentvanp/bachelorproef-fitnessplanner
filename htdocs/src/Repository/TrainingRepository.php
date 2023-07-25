@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Training;
+use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +39,21 @@ class TrainingRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findCoachPersonal(int $coachId, DateTime $start, DateTime $end): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.withTrainer = 1')
+            ->andWhere('t.coach = :coach')
+            ->andWhere(':start <= t.startTime')
+            ->andWhere('t.startTime <= :end')
+            ->setParameter('coach', $coachId)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->orderBy('t.startTime', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

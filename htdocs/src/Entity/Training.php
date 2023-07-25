@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TrainingRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
@@ -37,6 +38,12 @@ class Training
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     #[Assert\NotNull]
     private User $coach;
+
+    #[ORM\Column]
+    private ?bool $withTrainer = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $startTime = null;
 
     public function getId(): ?int
     {
@@ -123,6 +130,30 @@ class Training
     public function setCoach(User $coach): self
     {
         $this->coach = $coach;
+
+        return $this;
+    }
+
+    public function isWithTrainer(): ?bool
+    {
+        return $this->withTrainer;
+    }
+
+    public function setWithTrainer(bool $withTrainer): static
+    {
+        $this->withTrainer = $withTrainer;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?\DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(\DateTimeInterface $startTime): static
+    {
+        $this->startTime = $startTime;
 
         return $this;
     }
