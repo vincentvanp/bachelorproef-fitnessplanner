@@ -1,0 +1,12 @@
+grumphp:
+    hooks_preset: local
+    git_hook_variables:
+        EXEC_GRUMPHP_COMMAND: 'php'
+    environment:
+        paths:
+            - '/app/htdocs/vendor/bin'
+    tasks:
+        phpcsfixer2:
+            allow_risky: true
+            verbose: true
+            config: .php-cs-fixer.dist.php

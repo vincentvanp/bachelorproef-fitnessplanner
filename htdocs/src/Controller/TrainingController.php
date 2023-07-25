@@ -3,12 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\TrainingRepository;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TrainingController extends AbstractController
@@ -17,8 +16,8 @@ class TrainingController extends AbstractController
     public function coachPersonal(TrainingRepository $trainingRepository, Request $request): Response
     {
         $defaultData = [
-            'start' => new DateTime('now'),
-            'end' => new DateTime('now + 1 week'),
+            'start' => new \DateTime('now'),
+            'end' => new \DateTime('now + 1 week'),
         ];
 
         $form = $this->createFormBuilder($defaultData)
@@ -35,9 +34,7 @@ class TrainingController extends AbstractController
 
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
 
             $trainings = $trainingRepository->findCoachPersonal(

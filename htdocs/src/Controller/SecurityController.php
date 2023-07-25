@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\RoleRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Repository\RoleRepository;
 
 class SecurityController extends AbstractController
 {
@@ -21,16 +21,17 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
 
         $role = $user->getRole();
-        
-        if(count($role) != 1) { //TODO Pagina fiksen 
+
+        if (1 != count($role)) { // TODO Pagina fiksen
             return $this->render('calendar/both/index.html.twig');
         }
 
         $role = $role->first();
 
-        if($role->getName() == "coach") {
+        if ('coach' == $role->getName()) {
             return $this->redirectToRoute('app_coach');
         }
+
         return $this->redirectToRoute('app_client_calendar');
     }
 
@@ -42,37 +43,36 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
             'security' => 1,
         ]);
-        
     }
 
     #[Route('/register/{coach}/{email}', name: 'app_register')]
     public function register(
-        Request $request, 
-        ManagerRegistry $doctrine, 
+        Request $request,
+        ManagerRegistry $doctrine,
         UserPasswordHasherInterface $passwordHasher,
         RoleRepository $roleRepository,
         User $coach = null,
         string $email = null): Response
     {
-        $user = $doctrine->getRepository(User::class)->findOneBy(array('email' => $email));
+        $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
         $entityManager = $doctrine->getManager();
-        if(isset($user)) {
-            //dd('hey');
-            //dd($user);
-            //$this->addFlash('message', 'You are added as a client'); //TODO Fixen
+        if (isset($user)) {
+            // dd('hey');
+            // dd($user);
+            // $this->addFlash('message', 'You are added as a client'); //TODO Fixen
             $user->addCoach($coach);
             $entityManager->flush();
+
             return $this->redirectToRoute('app_login');
         }
         $user = new User();
-        if($coach != null ) {
-            if($coach->getRole()->first()->getName() == 'coach') {
+        if (null != $coach) {
+            if ('coach' == $coach->getRole()->first()->getName()) {
                 $user->addCoach($coach);
                 $user->setEmail($email);
-
             }
         }
         $form = $this->createForm(UserType::class, $user);
@@ -111,5 +111,4 @@ class SecurityController extends AbstractController
     {
 
     }*/
-
 }

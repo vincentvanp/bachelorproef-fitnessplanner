@@ -2,21 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CoachController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $em, private readonly MailerInterface $mailer){}
+    public function __construct(private readonly EntityManagerInterface $em, private readonly MailerInterface $mailer)
+    {
+    }
 
     #[Route('/coach', name: 'app_coach')]
     public function index(): Response
@@ -26,7 +28,7 @@ class CoachController extends AbstractController
         ]);
     }
 
-    #[Route('/coach/add/client',name: 'app_coach_client_add')]
+    #[Route('/coach/add/client', name: 'app_coach_client_add')]
     public function addClient(Request $request): Response
     {
         $defaultData = ['message' => 'Type your message here'];
@@ -41,7 +43,7 @@ class CoachController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
-            
+
             $email = (new TemplatedEmail())
                 ->from('vincent.vp@icloud.com')
                 ->to($data['email'])
