@@ -6,6 +6,3 @@ grumphp:
             level: 5
         securitychecker_symfony:
             run_always: true
-    fixer:
-        enabled: true
-        fix_by_default: false
