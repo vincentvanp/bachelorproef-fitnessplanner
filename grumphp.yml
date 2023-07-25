@@ -9,7 +9,7 @@ grumphp:
         phpcsfixer2:
             allow_risky: true
             verbose: true
-            config: 'htdocs/.php-cs-fixer.dist.php'
+            config: '.php-cs-fixer.dist.php'
         phpstan:
             triggered_by: [ 'php' ]
             memory_limit: "-1"
