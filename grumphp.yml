@@ -1,8 +1,96 @@
 grumphp:
+    tasks: { phpunit: null }
+parameters:
+    # Paths to the files you want to be checked
+    paths:
+        - 'htdocs/src/'
+        - 'htdocs/tests/'
+        - 'htdocs/config/'
+
+    # List of tasks to be executed on each commit
     tasks:
+        # PHP linting using PHP_CodeSniffer
         phpcs:
-            standard: PSR12
+            standard: 'PSR2'
+            triggered_by: ['php', 'inc', 'module', 'install', 'update', 'delete']
+
+        # PHP static analysis using PHPStan
         phpstan:
-            level: 5
-        securitychecker_symfony:
-            run_always: true
+            level: 7
+            trigger: ~
+
+        # PHP unit testing using PHPUnit
+        phpunit:
+            config: './phpunit.xml.dist'
+            trigger: ~
+
+        # Check for YAML syntax errors
+        yamllint:
+            triggered_by: ['yaml']
+
+        # Check for JSON syntax errors
+        jsonlint:
+            triggered_by: ['json']
+
+        # Check for composer.json validity
+        composer:
+            file: 'composer.json'
+            trigger: ~
+
+        # Check for security vulnerabilities in Composer packages
+        security_checker:
+            trigger: ~
+
+    # Specify the directories where the tasks should run (optional)
+    task_overrides:
+        phpcs:
+            paths: ~
+
+        phpstan:
+            paths: ~
+
+        phpunit:
+            paths: ~
+
+        yamllint:
+            paths: ~
+
+        jsonlint:
+            paths: ~
+
+        composer:
+            paths: ~
+
+        security_checker:
+            paths: ~
+
+    # Custom git hooks, runs all checks before you commit
+    git_hooks:
+        commit-msg: true
+
+    # Configure additional git hooks if needed (optional)
+    hooks:
+        # Pre-commit hook to run custom script before committing
+        pre-commit: './bin/custom-check.sh'
+
+    # Additional options and settings
+    extensions:
+        # Use a different PHP binary (optional)
+        php: 'php'
+
+        # Define a custom temporary directory (optional)
+        tmp_dir: '/custom/tmp/dir'
+
+        # Customize the process timeout (optional)
+        process_timeout: 60
+
+        # Specify the number of parallel jobs (optional)
+        parallel_jobs: 5
+
+        # Ignore specific file patterns (optional)
+        ignore_patterns: []
+
+        # Specify additional Composer package binaries in your project (optional)
+        bin_dir: 'bin/'
+
+
