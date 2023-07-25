@@ -31,12 +31,10 @@ class Training
 
     #[ORM\ManyToOne(inversedBy: 'receivedTrainings')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Assert\NotNull]
     private User $client;
 
     #[ORM\ManyToOne(inversedBy: 'givenTrainings')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Assert\NotNull]
     private User $coach;
 
     #[ORM\Column]

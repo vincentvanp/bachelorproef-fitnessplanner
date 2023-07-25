@@ -4,9 +4,13 @@ grumphp:
         EXEC_GRUMPHP_COMMAND: 'php'
     environment:
         paths:
-            - '/app/htdocs/vendor/bin'
+            - 'htdocs/vendor/bin'
     tasks:
         phpcsfixer2:
             allow_risky: true
             verbose: true
-            config: .php-cs-fixer.dist.php
+            config: 'htdocs/.php-cs-fixer.dist.php'
+        phpstan:
+            triggered_by: [ 'php' ]
+            memory_limit: "-1"
+            use_grumphp_paths: true
