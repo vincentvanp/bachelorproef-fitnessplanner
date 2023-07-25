@@ -26,7 +26,7 @@ class CoachController extends AbstractController
         ]);
     }
 
-    #[Route(name: 'app_coach_client_add')]
+    #[Route('/coach/add/client',name: 'app_coach_client_add')]
     public function addClient(Request $request): Response
     {
         $defaultData = ['message' => 'Type your message here'];

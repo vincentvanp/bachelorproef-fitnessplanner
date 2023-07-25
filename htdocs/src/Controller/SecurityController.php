@@ -58,12 +58,14 @@ class SecurityController extends AbstractController
         string $email = null): Response
     {
         $user = $doctrine->getRepository(User::class)->findOneBy(array('email' => $email));
-        if($user) {
+        $entityManager = $doctrine->getManager();
+        if(isset($user)) {
             //dd('hey');
             //dd($user);
             //$this->addFlash('message', 'You are added as a client'); //TODO Fixen
-            //$user->addCoach($coach);
-            //$this->redirectToRoute('app_login');
+            $user->addCoach($coach);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_login');
         }
         $user = new User();
         if($coach != null ) {
@@ -91,7 +93,6 @@ class SecurityController extends AbstractController
             ));
             $user->addRole($roleRepository->find(2));
 
-            $entityManager = $doctrine->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             // $this->addFlash('success', $translator->trans('user.register.success'));
