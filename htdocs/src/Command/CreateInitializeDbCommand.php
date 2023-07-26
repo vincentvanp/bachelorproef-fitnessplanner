@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:initialize-db')]
 class CreateInitializeDbCommand extends Command
 {
-    public function __construct(
+    public function __construct( //test
         private readonly RoleRepository $roleRepository,
         private readonly EntityManagerInterface $em)
     {
