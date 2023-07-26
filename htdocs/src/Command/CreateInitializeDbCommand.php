@@ -13,16 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:initialize-db')]
 class CreateInitializeDbCommand extends Command
 {
-    public function __construct( //test
+    public function __construct(// test
         private readonly RoleRepository $roleRepository,
         private readonly EntityManagerInterface $em)
     {
         parent::__construct();
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $coach = $this->roleRepository->find(1);

@@ -3,14 +3,13 @@
 namespace App\Controller;
 
 use App\Repository\TrainingRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TrainingController extends AbstractController
+class TrainingController extends BaseController
 {
     #[Route('/coach/personal/overview', name: 'app_training')]
     public function coachPersonal(TrainingRepository $trainingRepository, Request $request): Response

@@ -4,11 +4,6 @@
 
 {% block body %}
     <a href=" {{ logout_url(key = null) }} ">Logout</a>
-{% for training in trainings %}
 
-        <p> {{ training.title }} </p>
-        <p> {{ training.durationProposed }} </p>
-        <p> {{ training.commentCoach }} </p>
-{% endfor %}
 
 {% endblock %}

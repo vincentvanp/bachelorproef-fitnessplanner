@@ -6,14 +6,13 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\RoleRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class SecurityController extends BaseController
 {
     #[Route('/', name: 'app_default')]
     public function defaultRoute(): Response
@@ -60,8 +59,6 @@ class SecurityController extends AbstractController
         $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
         $entityManager = $doctrine->getManager();
         if (isset($user)) {
-            // dd('hey');
-            // dd($user);
             // $this->addFlash('message', 'You are added as a client'); //TODO Fixen
             $user->addCoach($coach);
             $entityManager->flush();
@@ -105,10 +102,4 @@ class SecurityController extends AbstractController
             'security' => 1,
         ]);
     }
-
-    /*#[Route('/register/client/{id}/{email}')]
-    public function registerClient(User $coach, string $email): Response
-    {
-
-    }*/
 }

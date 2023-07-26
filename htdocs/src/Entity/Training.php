@@ -113,7 +113,7 @@ class Training
         return $this->client;
     }
 
-    public function setClient(User $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 
@@ -125,7 +125,7 @@ class Training
         return $this->coach;
     }
 
-    public function setCoach(User $coach): self
+    public function setCoach(?User $coach): self
     {
         $this->coach = $coach;
 
