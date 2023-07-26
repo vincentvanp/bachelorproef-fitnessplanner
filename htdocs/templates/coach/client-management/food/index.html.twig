@@ -35,11 +35,10 @@
 							<table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" style="width: 100%;">
 								<thead>
 									<tr role="row">
-										<th style="width: 40%;">Name</th>
-										<th style="width: 15%;">Training</th>
-										<th style="width: 15%;">Food</th>
-										<th style="width: 15%;">Progress</th>
-										<th style="width: 15%;">Delete</th>
+										<th style="width: 15%;">Title</th>
+										<th style="width: 45%;">Description</th>
+										<th style="width: 10%;">Date</th>
+										<th style="width: 15%;">Add comment</th>
 									</tr>
 								</thead>
 								<!--<tfoot>
@@ -51,13 +50,12 @@
 									</tr>
 								</tfoot>-->
 								<tbody>
-                                    {% for client in clients %}
+                                    {% for food in foods %}
                                         <tr>
-										    <td>{{ client.firstname }} {{ client.lastname }}</td>
-										    <td><a href="#">Training</a></td>
-										    <td><a href="{{ path('app_coach_client_food', { 'id': client.id }) }}">Food</a></td>
-										    <td><a href="#">Progress</a></td>
-											<td><a href="{{ path('app_coach_client_remove_confirm', { 'id': client.id }) }}">Delete client</a></td>
+										    <td>{{ food.title }}</td>
+										    <td>{{ food.description }}</td>
+										    <td>{{ food.date }}</td>
+											<td><a href="#">Comment</a></td>
 									    </tr>
                                     {% endfor %}
 								</tbody>

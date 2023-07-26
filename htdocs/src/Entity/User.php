@@ -61,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'clients')]
     private Collection $trainings;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Food::class)]
+    private Collection $food;
+
     public function __construct()
     {
         $this->givenTrainings = new ArrayCollection();
@@ -68,6 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->coaches = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->trainings = new ArrayCollection();
+        $this->food = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +315,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->trainings->removeElement($training)) {
             $training->removeClient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Food>
+     */
+    public function getFood(): Collection
+    {
+        return $this->food;
+    }
+
+    public function addFood(Food $food): static
+    {
+        if (!$this->food->contains($food)) {
+            $this->food->add($food);
+            $food->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFood(Food $food): static
+    {
+        if ($this->food->removeElement($food)) {
+            // set the owning side to null (unless already changed)
+            if ($food->getUser() === $this) {
+                $food->setUser(null);
+            }
         }
 
         return $this;
