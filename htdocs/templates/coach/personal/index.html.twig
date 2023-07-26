@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    <a href="{{ path('app_coach_personal_add') }}">Add a training together with one of your clients</a>
+
     {{ form(dateFilter) }}
 
     {% for training in trainings %}
