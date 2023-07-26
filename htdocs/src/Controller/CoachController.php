@@ -107,6 +107,7 @@ class CoachController extends BaseController
 
             $training = $form->getData();
             $training->setDurationActual(0);
+            $training->setWithTrainer(true);
             // dd($training);
             $entityManager->persist($training);
             $entityManager->flush();
