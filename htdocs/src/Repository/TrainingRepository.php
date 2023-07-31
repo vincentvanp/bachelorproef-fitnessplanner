@@ -58,8 +58,6 @@ class TrainingRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $coachId
-     *
      * @return array<Training>
      */
     public function findClientTrainings(int $clientId, \DateTime $start, \DateTime $end, int $coachId = null): array
