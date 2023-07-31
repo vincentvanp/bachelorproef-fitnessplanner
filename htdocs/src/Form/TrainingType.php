@@ -40,6 +40,7 @@ class TrainingType extends AbstractType
                     'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
                     'hour' => 'Hour', 'minute' => 'Minute',
                 ],
+                'data' => new \DateTime('now'),
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Add Training',

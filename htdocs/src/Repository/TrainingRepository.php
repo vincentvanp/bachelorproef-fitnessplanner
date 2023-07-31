@@ -39,6 +39,9 @@ class TrainingRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array<Training>
+     */
     public function findCoachPersonal(int $coachId, \DateTime $start, \DateTime $end): array
     {
         return $this->createQueryBuilder('t')
@@ -52,6 +55,31 @@ class TrainingRepository extends ServiceEntityRepository
             ->orderBy('t.startTime', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param int $coachId
+     *
+     * @return array<Training>
+     */
+    public function findClientTrainings(int $clientId, \DateTime $start, \DateTime $end, int $coachId = null): array
+    {
+        $query = $this->createQueryBuilder('t')
+            ->andWhere(':start <= t.startTime')
+            ->andWhere('t.startTime <= :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end);
+
+        if ($coachId) {
+            $query->andWhere('t.coach = :coach')
+                ->setParameter('coach', $coachId);
+        }
+
+        return $query->innerJoin('t.clients', 'c', 'WITH', 'c.id = :clientId')
+                ->setParameter('clientId', $clientId)
+                ->orderBy('t.startTime', 'ASC')
+                ->getQuery()
+                ->getResult();
     }
 
     //    /**
