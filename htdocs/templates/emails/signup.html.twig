@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+{% include 'security/head.html.twig' %}
+    <body>
+
+        <p>{{ coach.firstname }} {{ coach.lastname }} has invited you to become his client. Click <a href="{{ url('app_register', { 'coach': coach.id, 'email': adress }) }}">here</a> to register.</p>
+
+    </body>
+</html>
+

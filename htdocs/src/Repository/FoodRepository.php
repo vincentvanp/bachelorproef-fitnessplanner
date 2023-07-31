@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Role;
+use App\Entity\Food;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Role>
+ * @extends ServiceEntityRepository<Food>
  *
- * @method Role|null find($id, $lockMode = null, $lockVersion = null)
- * @method Role|null findOneBy(array $criteria, array $orderBy = null)
- * @method Role[]    findAll()
- * @method Role[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Food|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Food|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Food[]    findAll()
+ * @method Food[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RoleRepository extends ServiceEntityRepository
+class FoodRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Role::class);
+        parent::__construct($registry, Food::class);
     }
 
-    public function save(Role $entity, bool $flush = false): void
+    public function save(Food $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class RoleRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Role $entity, bool $flush = false): void
+    public function remove(Food $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,24 +40,24 @@ class RoleRepository extends ServiceEntityRepository
     }
 
     //    /**
-    //     * @return Role[] Returns an array of Role objects
+    //     * @return Food[] Returns an array of Food objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
+    //        return $this->createQueryBuilder('f')
+    //            ->andWhere('f.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
+    //            ->orderBy('f.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Role
+    //    public function findOneBySomeField($value): ?Food
     //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
+    //        return $this->createQueryBuilder('f')
+    //            ->andWhere('f.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

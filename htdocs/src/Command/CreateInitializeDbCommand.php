@@ -2,41 +2,37 @@
 
 namespace App\Command;
 
-
+use App\Entity\Role;
+use App\Repository\RoleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Repository\RoleRepository;
-use App\Entity\Role;
-use Doctrine\ORM\EntityManagerInterface;
 
 #[AsCommand(name: 'app:initialize-db')]
 class CreateInitializeDbCommand extends Command
 {
-    public function __construct(
+    public function __construct(// test
         private readonly RoleRepository $roleRepository,
         private readonly EntityManagerInterface $em)
     {
         parent::__construct();
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $coach = $this->roleRepository->find(1);
         $client = $this->roleRepository->find(2);
-        if(isset($coach) && isset($client)) {
-            if($coach->getName() == 'coach' && $client->getName() == 'client') {
+        if (isset($coach) && isset($client)) {
+            if ('coach' == $coach->getName() && 'client' == $client->getName()) {
                 return Command::SUCCESS;
             }
         }
 
         $roles = $this->roleRepository->findAll();
 
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             $this->em->remove($role);
             $this->em->flush();
         }
@@ -52,8 +48,7 @@ class CreateInitializeDbCommand extends Command
         $clientRole->setName('client');
         $this->em->persist($clientRole);
         $this->em->flush();
-        
-        return Command::SUCCESS;
 
+        return Command::SUCCESS;
     }
 }

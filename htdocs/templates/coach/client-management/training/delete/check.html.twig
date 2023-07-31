@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+    <h2>Are you sure you want to delete this training - {{ training.title }} - {{ training.startTime|date('d-m-Y') }}</h2>
+
+    <a href="{{ path('app_coach_training_delete', {'client_id': client.id, 'training_id': training.id }) }}">Yes</a>
+    <a href="{{ path('app_coach_training_detail', {'client_id': client.id, 'training_id': training.id}) }}">No</a>
+
+
+{% endblock %}

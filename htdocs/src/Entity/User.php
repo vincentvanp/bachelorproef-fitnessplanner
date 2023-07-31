@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -21,6 +21,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    /**
+     * @var array<string>
+     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -39,9 +42,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isTrainer = false;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Training::class)]
-    private Collection $receivedTrainings;
-
     #[ORM\OneToMany(mappedBy: 'coach', targetEntity: Training::class)]
     private Collection $givenTrainings;
 
@@ -58,13 +58,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(name: 'coach_id', referencedColumnName: 'id')]
     private Collection $clients;
 
+    #[ORM\ManyToMany(targetEntity: Training::class, mappedBy: 'clients')]
+    private Collection $trainings;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Food::class)]
+    private Collection $food;
+
     public function __construct()
     {
-        $this->receivedTrainings = new ArrayCollection();
         $this->givenTrainings = new ArrayCollection();
         $this->role = new ArrayCollection();
         $this->coaches = new ArrayCollection();
         $this->clients = new ArrayCollection();
+        $this->trainings = new ArrayCollection();
+        $this->food = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,6 +113,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array<string> $roles
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -161,6 +171,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getFullName(): ?string
+    {
+        return $this->firstName.' '.$this->lastName;
+    }
+
     public function isIsTrainer(): ?bool
     {
         return $this->isTrainer;
@@ -169,36 +184,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsTrainer(bool $isTrainer): static
     {
         $this->isTrainer = $isTrainer;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Training>
-     */
-    public function getReceivedTrainings(): Collection
-    {
-        return $this->receivedTrainings;
-    }
-
-    public function addReceivedTrainings(Training $training): self
-    {
-        if (!$this->receivedTrainings->contains($training)) {
-            $this->receivedTrainings->add($training);
-            $training->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReceivedTraining(Training $training): self
-    {
-        if ($this->receivedTrainings->removeElement($training)) {
-            // set the owning side to null (unless already changed)
-            if ($training->getClient() === $this) {
-                $training->setClient(null);
-            }
-        }
 
         return $this;
     }
@@ -303,6 +288,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->clients->removeElement($client)) {
             $client->removeCoach($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Training>
+     */
+    public function getTrainings(): Collection
+    {
+        return $this->trainings;
+    }
+
+    public function addTraining(Training $training): static
+    {
+        if (!$this->trainings->contains($training)) {
+            $this->trainings->add($training);
+            $training->addClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraining(Training $training): static
+    {
+        if ($this->trainings->removeElement($training)) {
+            $training->removeClient($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Food>
+     */
+    public function getFood(): Collection
+    {
+        return $this->food;
+    }
+
+    public function addFood(Food $food): static
+    {
+        if (!$this->food->contains($food)) {
+            $this->food->add($food);
+            $food->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFood(Food $food): static
+    {
+        if ($this->food->removeElement($food)) {
+            // set the owning side to null (unless already changed)
+            if ($food->getUser() === $this) {
+                $food->setUser(null);
+            }
         }
 
         return $this;

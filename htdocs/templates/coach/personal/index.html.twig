@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TrainingController!{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('app_coach_personal_add') }}">Add a training together with one of your clients</a>
+
+    {{ form(dateFilter) }}
+
+    {% for training in trainings %}
+
+        {{ training.title }} {{ training.startTime|date('Y-m-d H:i:s') }}
+
+    {% endfor %}
+
+{% endblock %}

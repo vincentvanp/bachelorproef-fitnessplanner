@@ -3,18 +3,17 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct()
     {
     }
 
@@ -56,7 +55,7 @@ class UserType extends AbstractType
                     'type' => 'text',
                     'placeholder' => 'Last name',
                 ],
-            ])    
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Create account',
                 'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],

@@ -39,28 +39,69 @@ class TrainingRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Training[] Returns an array of Training objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return array<Training>
+     */
+    public function findCoachPersonal(int $coachId, \DateTime $start, \DateTime $end): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.withTrainer = 1')
+            ->andWhere('t.coach = :coach')
+            ->andWhere(':start <= t.startTime')
+            ->andWhere('t.startTime <= :end')
+            ->setParameter('coach', $coachId)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->orderBy('t.startTime', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Training
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @return array<Training>
+     */
+    public function findClientTrainings(int $clientId, \DateTime $start, \DateTime $end, int $coachId = null): array
+    {
+        $query = $this->createQueryBuilder('t')
+            ->andWhere(':start <= t.startTime')
+            ->andWhere('t.startTime <= :end')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end);
+
+        if ($coachId) {
+            $query->andWhere('t.coach = :coach')
+                ->setParameter('coach', $coachId);
+        }
+
+        return $query->innerJoin('t.clients', 'c', 'WITH', 'c.id = :clientId')
+                ->setParameter('clientId', $clientId)
+                ->orderBy('t.startTime', 'ASC')
+                ->getQuery()
+                ->getResult();
+    }
+
+    //    /**
+    //     * @return Training[] Returns an array of Training objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Training
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

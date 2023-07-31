@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\TrainingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
@@ -23,20 +26,31 @@ class Training
     private ?int $durationActual = null;
 
     #[ORM\Column(length: 1000)]
-    private ?string $commentCoach = null;
+    private ?string $commentCoach = '';
 
     #[ORM\Column(length: 1000)]
-    private ?string $commentClient = null;
-
-    #[ORM\ManyToOne(inversedBy: 'receivedTrainings')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Assert\NotNull]
-    private User $client;
+    private ?string $commentClient = '';
 
     #[ORM\ManyToOne(inversedBy: 'givenTrainings')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Assert\NotNull]
     private User $coach;
+
+    #[ORM\Column]
+    private ?bool $withTrainer = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $startTime = null;
+
+    #[ORM\Column(length: 1000, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'trainings')]
+    private Collection $clients;
+
+    public function __construct()
+    {
+        $this->clients = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,26 +117,74 @@ class Training
         return $this;
     }
 
-    public function getClient(): User
-    {
-        return $this->client;
-    }
-
-    public function setClient(User $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
     public function getCoach(): User
     {
         return $this->coach;
     }
 
-    public function setCoach(User $coach): self
+    public function setCoach(?User $coach): self
     {
         $this->coach = $coach;
+
+        return $this;
+    }
+
+    public function isWithTrainer(): ?bool
+    {
+        return $this->withTrainer;
+    }
+
+    public function setWithTrainer(bool $withTrainer): static
+    {
+        $this->withTrainer = $withTrainer;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?\DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(\DateTimeInterface $startTime): static
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(User $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(User $client): static
+    {
+        $this->clients->removeElement($client);
 
         return $this;
     }
