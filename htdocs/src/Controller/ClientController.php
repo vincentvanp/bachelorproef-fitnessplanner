@@ -3,17 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Training;
+use App\Form\ClientTrainingType;
 use App\Form\CompleteTrainingType;
 use App\Repository\TrainingRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ClientController extends BaseController
 {
-    public function __construct(private readonly TrainingRepository $trainingRepository)
-    {
+    public function __construct(
+        private readonly TrainingRepository $trainingRepository,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     #[Route('/client', name: 'app_client')]
@@ -39,15 +44,15 @@ class ClientController extends BaseController
     }
 
     #[Route('/client/training/{id}/complete', name: 'app_client_training_complete')]
-    public function clientTrainingComplete(EntityManagerInterface $entityManager, Training $training, Request $request): Response
+    public function clientTrainingComplete(Training $training, Request $request): Response
     {
         $form = $this->createForm(CompleteTrainingType::class, $training);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $training = $form->getData();
-            $entityManager->persist($training);
-            $entityManager->flush();
+            $this->entityManager->persist($training);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_client_training_detail', ['id' => $training->getId()]);
         }
@@ -55,6 +60,68 @@ class ClientController extends BaseController
         return $this->render('client/training/review.html.twig', [
             'client' => $this->getUser(),
             'training' => $training,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/client/agenda/overview', name: 'app_client_agenda')]
+    public function clientAgenda(TrainingRepository $trainingRepository, Request $request): Response
+    {
+        $defaultData = [
+            'start' => new \DateTime('now'),
+            'end' => new \DateTime('now + 1 week'),
+        ];
+
+        $form = $this->createFormBuilder($defaultData)
+            ->add('start', DateTimeType::class)
+            ->add('end', DateTimeType::class)
+            ->add('send', SubmitType::class)
+            ->getForm();
+
+        $trainings = $trainingRepository->findClientTrainings(
+            $this->getUser()->getId(),
+            $defaultData['start'],
+            $defaultData['end'],
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $trainings = $trainingRepository->findClientTrainings(
+                $this->getUser()->getId(),
+                $data['start'],
+                $data['end'],
+            );
+        }
+
+        return $this->render('client/calendar/index.html.twig', [
+            'trainings' => $trainings,
+            'dateFilter' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/client/agenda/add', name: 'app_client_agenda_add')]
+    public function clientAddTraining(TrainingRepository $trainingRepository, Request $request): Response
+    {
+        $training = new Training();
+        $training->addClient($this->getUser());
+
+        $form = $this->createForm(ClientTrainingType::class, $training);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $training = $form->getData();
+            $training->setDurationProposed($training->getDurationActual());
+            $training->setWithTrainer(false);
+            $this->entityManager->persist($training);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_client_agenda');
+        }
+
+        return $this->render('client/training/add.html.twig', [
             'form' => $form->createView(),
         ]);
     }

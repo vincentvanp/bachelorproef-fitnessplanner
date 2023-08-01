@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TrainingController!{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('app_client_agenda_add') }}">Add a training</a>
+
+    {{ form(dateFilter) }}
+
+    {% for training in trainings %}
+
+        <div><a href="{{ path('app_client_training_detail', {'id': training.id}) }}">{{ training.title }} {{ training.startTime|date('Y-m-d H:i:s') }}</a></div>
+
+    {% endfor %}
+
+{% endblock %}
