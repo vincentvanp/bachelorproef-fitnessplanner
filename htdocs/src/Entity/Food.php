@@ -23,7 +23,7 @@ class Food
     #[ORM\Column(length: 1000)]
     private ?string $commentCoach = '';
 
-    #[ORM\ManyToOne(inversedBy: 'date')]
+    #[ORM\ManyToOne(inversedBy: 'food')]
     private ?User $user = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]

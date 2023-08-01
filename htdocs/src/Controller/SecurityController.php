@@ -31,7 +31,7 @@ class SecurityController extends BaseController
             return $this->redirectToRoute('app_coach');
         }
 
-        return $this->redirectToRoute('app_client_calendar');
+        return $this->redirectToRoute('app_client');
     }
 
     #[Route('/login', name: 'app_login')]
@@ -94,7 +94,7 @@ class SecurityController extends BaseController
             $entityManager->flush();
             // $this->addFlash('success', $translator->trans('user.register.success'));
 
-            return $this->redirectToRoute('app_client_calendar'); // TODO Route bestaat niet meer
+            return $this->redirectToRoute('app_client');
         }
 
         return $this->render('security/register.html.twig', [

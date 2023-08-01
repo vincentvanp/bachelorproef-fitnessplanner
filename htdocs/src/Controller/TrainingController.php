@@ -232,7 +232,6 @@ class TrainingController extends BaseController
         Training $training,
         EntityManagerInterface $em): Response
     {
-        // $this->getUser()->removeClient($client);
         $em->remove($training);
         $em->flush();
 

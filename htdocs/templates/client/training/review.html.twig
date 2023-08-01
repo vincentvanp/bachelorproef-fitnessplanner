@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+    {{ form(form) }}
+
+    <a href="{{ path('app_client_training_detail', {'id': training.id}) }}">Cancel</a>
+{% endblock %}
