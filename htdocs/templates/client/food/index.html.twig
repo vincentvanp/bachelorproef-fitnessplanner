@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TrainingController!{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('app_food_add') }}">Add a meal</a>
+
+    {{ form(dateFilter) }}
+
+    {% for meal in food %}
+
+        <div><a href="{{ path('app_food_detail', {'id': meal.id}) }}">{{ meal.title }}</a> </div>
+
+    {% endfor %}
+
+{% endblock %}

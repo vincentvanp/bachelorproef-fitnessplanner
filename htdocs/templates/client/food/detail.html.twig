@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+    <h1>Food - {{ food.title }} - {{ food.user.fullName }} - {{ food.date|date('d-m-Y') }}</h1>
+
+    <h2>Description</h2>
+
+    <p>{{ food.description }}</p>
+
+    <h2>Comment of coach</h2>
+
+    <p>{{ food.commentCoach }}</p>
+
+    {% if form is defined %}
+
+        {{ form(form) }}
+
+    {% else %}
+
+        <a href="{{ path('app_food_edit', {'id':  food.id}) }}">Edit</a>
+        <a href="{{ path('app_food_delete', {'id':  food.id}) }}">Delete</a>
+
+    {% endif %}
+
+
+
+{% endblock %}
