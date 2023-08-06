@@ -64,6 +64,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Food::class)]
     private Collection $food;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Weight::class)]
+    private Collection $weights;
+
     public function __construct()
     {
         $this->givenTrainings = new ArrayCollection();
@@ -72,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->clients = new ArrayCollection();
         $this->trainings = new ArrayCollection();
         $this->food = new ArrayCollection();
+        $this->weights = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -344,6 +348,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($food->getUser() === $this) {
                 $food->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Weight>
+     */
+    public function getWeights(): Collection
+    {
+        return $this->weights;
+    }
+
+    public function addWeight(Weight $weight): static
+    {
+        if (!$this->weights->contains($weight)) {
+            $this->weights->add($weight);
+            $weight->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWeight(Weight $weight): static
+    {
+        if ($this->weights->removeElement($weight)) {
+            // set the owning side to null (unless already changed)
+            if ($weight->getUser() === $this) {
+                $weight->setUser(null);
             }
         }
 
