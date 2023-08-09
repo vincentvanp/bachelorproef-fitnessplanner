@@ -28,9 +28,11 @@ class ClientController extends BaseController
 
         return $this->render('client/index.html.twig', [
             'client' => $client,
-            'trainings' => $this->trainingRepository->findClientTrainings($client->getId(),
-                new \DateTime('today 0:01'),
-                new \DateTime('today 23:59')),
+            'trainings' => $this->trainingRepository->findTrainings(
+                start: new \DateTime('today 0:01'),
+                end: new \DateTime('today 23:59'),
+                clientId: $client->getId(),
+            ),
         ]);
     }
 
@@ -78,10 +80,10 @@ class ClientController extends BaseController
             ->add('send', SubmitType::class)
             ->getForm();
 
-        $trainings = $trainingRepository->findClientTrainings(
-            $this->getUser()->getId(),
-            $defaultData['start'],
-            $defaultData['end'],
+        $trainings = $trainingRepository->findTrainings(
+            start: $defaultData['start'],
+            end: $defaultData['end'],
+            clientId: $this->getUser()->getId(),
         );
 
         $form->handleRequest($request);
@@ -89,10 +91,10 @@ class ClientController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $trainings = $trainingRepository->findClientTrainings(
-                $this->getUser()->getId(),
-                $data['start'],
-                $data['end'],
+            $trainings = $trainingRepository->findTrainings(
+                start: $data['start'],
+                end: $data['end'],
+                clientId: $this->getUser()->getId(),
             );
         }
 
