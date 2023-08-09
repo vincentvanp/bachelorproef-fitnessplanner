@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EditWeightController!{% endblock %}
+{% block body %}
+
+    <h1>Weight overview</h1>
+    <a href="{{ path('app_weight_add') }}">Add a new weight</a>
+    <div><a href="{{ path('app_weight_add') }}"></a></div>
+
+    <div>{{ form(form) }}</div>
+    <div class="row">
+
+        <div class="col-xl-8 col-lg-7">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Weight overview</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        {{ render_chart(chart, {'class': 'chartjs-render-monitor'}) }}
+                    </div>
+                    <hr>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+<script>import Chart from 'chart.js/auto';</script>
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Weight;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,39 @@ class WeightRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @return array<Weight>
+     */
+    public function findWeightByDate(\DateTime $date, User $user): array // TODO Kan via findby?
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.user = :user')
+            ->andWhere('w.date = :date')
+            ->setParameter('user', $user)
+            ->setParameter('date', $date)
+            ->orderBy('w.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array<Weight>
+     */
+    public function findWeightInPeriod(\DateTime $start, \DateTime $end, User $user): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.user = :user')
+            ->andWhere('w.date >= :start')
+            ->andWhere('w.date <= :end')
+            ->setParameter('user', $user)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->orderBy('w.date', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
