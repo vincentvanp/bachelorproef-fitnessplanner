@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\training\coach;
+namespace App\Controller\coach\training;
 
 use App\Controller\BaseController;
 use App\Entity\Training;

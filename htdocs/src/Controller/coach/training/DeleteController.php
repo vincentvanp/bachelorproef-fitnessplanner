@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\training\coach;
+namespace App\Controller\coach\training;
 
 use App\Controller\BaseController;
 use App\Entity\Training;
@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DeleteTrainingController extends BaseController
+class DeleteController extends BaseController
 {
     #[Route('/coach/training/delete/check/{client_id}/{training_id}', name: 'app_coach_training_delete_check')]
     public function coachDeleteTrainingCheck(

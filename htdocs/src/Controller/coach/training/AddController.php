@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\training\coach;
+namespace App\Controller\coach\training;
 
 use App\Controller\BaseController;
 use App\Entity\Training;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AddTrainingController extends BaseController
+class AddController extends BaseController
 {
     #[Route('/coach/training/add/{id}', name: 'app_coach_training_add')]
     public function coachAddTraining(

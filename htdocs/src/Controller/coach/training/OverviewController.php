@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controller\training\coach;
+namespace App\Controller\coach\training;
 
 use App\Controller\BaseController;
+use App\Entity\User;
 use App\Repository\TrainingRepository;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -10,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PersonalAgendaController extends BaseController
+class OverviewController extends BaseController
 {
-    #[Route('/coach/personal/overview', name: 'app_coach_personal')]
-    public function coachPersonal(TrainingRepository $trainingRepository, Request $request): Response
+    #[Route('/coach/training/{id}', name: 'app_coach_training')]
+    public function coachClientOverview(TrainingRepository $trainingRepository, Request $request, User $client): Response
     {
         $defaultData = [
-            'start' => new \DateTime('now'),
+            'start' => new \DateTime('now - 1 week'),
             'end' => new \DateTime('now + 1 week'),
         ];
 
@@ -29,8 +30,8 @@ class PersonalAgendaController extends BaseController
         $trainings = $trainingRepository->findTrainings(
             start: $defaultData['start'],
             end: $defaultData['end'],
+            clientId: $client->getId(),
             coachId: $this->getUser()->getId(),
-            isWithTrainer: true,
         );
 
         $form->handleRequest($request);
@@ -41,14 +42,15 @@ class PersonalAgendaController extends BaseController
             $trainings = $trainingRepository->findTrainings(
                 start: $data['start'],
                 end: $data['end'],
+                clientId: $client->getId(),
                 coachId: $this->getUser()->getId(),
-                isWithTrainer: true,
             );
         }
 
-        return $this->render('coach/personal/index.html.twig', [
+        return $this->render('coach/client-management/training/index.html.twig', [
             'trainings' => $trainings,
             'dateFilter' => $form->createView(),
+            'client' => $client,
         ]);
     }
 }

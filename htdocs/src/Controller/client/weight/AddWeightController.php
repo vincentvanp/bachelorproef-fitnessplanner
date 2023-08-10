@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\weight;
+namespace App\Controller\client\weight;
 
 use App\Controller\BaseController;
 use App\Entity\Weight;

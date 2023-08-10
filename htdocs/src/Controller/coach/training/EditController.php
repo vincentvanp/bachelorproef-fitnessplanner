@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\training\coach;
+namespace App\Controller\coach\training;
 
 use App\Controller\BaseController;
 use App\Entity\Training;
@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class EditTrainingController extends BaseController
+class EditController extends BaseController
 {
-    #[Route('/coach/training/{training_id}/edit/{client_id}', name: 'app_coach_training_edit')]
+    #[Route('/coach/training/edit/{client_id}/{training_id}', name: 'app_coach_training_edit')]
     public function coachEditTraining(
         EntityManagerInterface $entityManager,
         Request $request,

@@ -30,7 +30,7 @@ class FoodController extends BaseController
         return $user->getFood();
     }
 
-    #[Route('/coach/client/{id}/food', name: 'app_coach_client_food')]
+    #[Route('/coach/client/food/{id}', name: 'app_coach_client_food')]
     public function getFoodOfClient(User $client): Response
     {
         return $this->render('coach/client-management/food/index.html.twig', [
@@ -70,7 +70,7 @@ class FoodController extends BaseController
         ]);
     }
 
-    #[Route('/food/{id}/detail', name: 'app_food_detail')]
+    #[Route('/food/detail/{id}', name: 'app_food_detail')]
     public function foodDetail(Food $food, Request $request): Response
     {
         if ('client' == $this->getUser()->getRole()->first()->getName()) {
