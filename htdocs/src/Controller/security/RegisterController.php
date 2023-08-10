@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\security;
 
+use App\Controller\BaseController;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\RoleRepository;
@@ -10,43 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends BaseController
+class RegisterController extends BaseController
 {
-    #[Route('/', name: 'app_default')]
-    public function defaultRoute(): Response
-    {
-        $user = $this->getUser();
-
-        $role = $user->getRole();
-
-        if (1 != count($role)) { // TODO Pagina fiksen
-            return $this->render('calendar/both/index.html.twig');
-        }
-
-        $role = $role->first();
-
-        if ('coach' == $role->getName()) {
-            return $this->redirectToRoute('app_coach');
-        }
-
-        return $this->redirectToRoute('app_client');
-    }
-
-    #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-            'security' => 1,
-        ]);
-    }
-
     #[Route('/register/{coach}/{email}', name: 'app_register')]
     public function register(
         Request $request,
