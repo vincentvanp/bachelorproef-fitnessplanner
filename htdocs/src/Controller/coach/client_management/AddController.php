@@ -53,7 +53,8 @@ class AddController extends BaseController
             ->htmlTemplate('emails/signup.html.twig')
             ->context([
                 'coach' => $this->getUser(),
-                'adress' => $data['email'],
+                'address' => $data['email'],
+                'message' => $data['message'],
             ]);
 
         $this->mailer->send($email);

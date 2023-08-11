@@ -4,16 +4,39 @@ namespace App\Controller\coach\Food;
 
 use App\Controller\BaseController;
 use App\Entity\User;
+use App\Repository\FoodRepository;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ClientFoodController extends BaseController
 {
     #[Route('/coach/client/food/{id}', name: 'app_coach_client_food')]
-    public function getFoodOfClient(User $client): Response
+    public function getFoodOfClient(User $client, FoodRepository $foodRepository, Request $request): Response
     {
+        $data = ['date' => new \DateTime('now')];
+
+        $form = $this->createFormBuilder($data)
+            ->add('date', DateType::class)
+            ->add('send', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+        }
+
+        $food = $foodRepository->findBy([
+            'date' => $data['date'],
+            'user' => $client,
+        ]);
+
         return $this->render('coach/client-management/food/index.html.twig', [
-            'foods' => $client->getFood(),
+            'form' => $form->createView(),
+            'foods' => $food,
         ]);
     }
 }

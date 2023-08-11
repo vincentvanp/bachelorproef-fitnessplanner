@@ -34,7 +34,7 @@ class HomepageController extends BaseController
         ]);
 
         return $this->render('client/food/index.html.twig', [
-            'food' => $food,
+            'foods' => $food,
             'dateFilter' => $form->createView(),
         ]);
     }
