@@ -28,7 +28,7 @@ class DetailController extends BaseController
             $food = $form->getData();
             $em->persist($food);
             $em->flush();
-            // dd('hey');
+
             return $this->redirectToRoute('app_coach_client_food', ['id' => $food->getUser()->getId()]);
         }
 

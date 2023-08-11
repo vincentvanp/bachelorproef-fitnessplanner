@@ -5,6 +5,7 @@
 
 {% block body %}
 
+    <p>Duration proposed: {{ training.durationProposed }} minutes.</p>
     {{ form(form) }}
 
     <a href="{{ path('app_client_training_detail', {'id': training.id}) }}">Cancel</a>

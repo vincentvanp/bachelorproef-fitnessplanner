@@ -30,7 +30,7 @@ class CompleteTrainingType extends AbstractType
                 'data' => new \DateTime('now'),
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Add Training',
+                'label' => 'Complete training',
                 'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
             ]);
     }
