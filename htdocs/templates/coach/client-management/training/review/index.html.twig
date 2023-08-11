@@ -28,7 +28,8 @@
 
     <p>{{ training.commentCoach }}</p>
 
-    <a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}">Review</a>
+    {{ form(form) }}
+
     <a href="{{ path('app_coach_training_edit', {'client_id': client.id, 'training_id': training.id}) }}">Edit</a>
     <a href="{{ path('app_coach_training_delete_check', {'client_id': client.id, 'training_id': training.id }) }}">Delete</a>
 

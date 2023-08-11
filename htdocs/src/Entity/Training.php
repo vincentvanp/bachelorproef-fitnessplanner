@@ -38,6 +38,9 @@ class Training
     #[ORM\Column]
     private ?bool $withTrainer = false;
 
+    #[ORM\Column]
+    private ?bool $reviewed = false;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $startTime = null;
 
@@ -98,8 +101,11 @@ class Training
         return $this->commentCoach;
     }
 
-    public function setCommentCoach(string $commentCoach): static
+    public function setCommentCoach(?string $commentCoach): static
     {
+        if (!$commentCoach) {
+            $commentCoach = '';
+        }
         $this->commentCoach = $commentCoach;
 
         return $this;
@@ -137,6 +143,18 @@ class Training
     public function setWithTrainer(bool $withTrainer): static
     {
         $this->withTrainer = $withTrainer;
+
+        return $this;
+    }
+
+    public function isReviewed(): ?bool
+    {
+        return $this->reviewed;
+    }
+
+    public function setReviewed(bool $reviewed): static
+    {
+        $this->reviewed = $reviewed;
 
         return $this;
     }

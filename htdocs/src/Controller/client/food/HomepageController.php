@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomepageController extends BaseController
 {
-    #[Route('/client/food', name: 'app_coach_client_food')]
+    #[Route('/client/food', name: 'app_client_food')]
     public function clientFood(FoodRepository $foodRepository, Request $request): Response
     {
         $data = ['date' => new \DateTime('now')];

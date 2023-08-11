@@ -54,8 +54,9 @@
                                     {% for food in foods %}
                                         <tr>
 										    <td>{{ food.title }}</td>
+											<td>{{ food.category }}</td>
 										    <td>{{ food.description }}</td>
-										    <td>{{ food.date }}</td>
+										    <td>{{ food.date|date('d-m-Y') }}</td>
 											<td><a href="#">Comment</a></td>
 									    </tr>
                                     {% endfor %}

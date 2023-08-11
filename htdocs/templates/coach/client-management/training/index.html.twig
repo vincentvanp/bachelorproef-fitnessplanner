@@ -42,7 +42,8 @@
                                         <th style="width: 20%;">Title</th>
                                         <th style="width: 20%;">Date</th>
                                         <th style="width: 20%;">Duration completion</th>
-                                        <th style="width: 20%;">Overview</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 10%;">Review</th>
                                     </tr>
                                     </thead>
                                     <!--<tfoot>
@@ -56,10 +57,11 @@
                                     <tbody>
                                     {% for training in trainings %}
                                         <tr>
-                                            <td>{{ training.title }}</td>
+                                            <td><a href="{{ path('app_coach_training_detail', {'client_id': client.id, 'training_id': training.id }) }}">{{ training.title }}</a></td>
                                             <td>{{ training.startTime|date('d-m-Y') }}</td>
                                             <td>{{ (training.durationActual / training.durationProposed) * 100 }}%</td>
-                                            <td><a href="{{ path('app_coach_training_detail', {'client_id': client.id, 'training_id': training.id }) }}">Overview</a></td>
+                                            <td>{{ configureStatus(training) }}</td>
+                                            <td><a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}">Review</a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
