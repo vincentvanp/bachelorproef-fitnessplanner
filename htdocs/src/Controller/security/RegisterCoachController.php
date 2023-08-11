@@ -6,39 +6,23 @@ use App\Controller\BaseController;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\RoleRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RegisterController extends BaseController
+class RegisterCoachController extends BaseController
 {
-    #[Route('/register/{coach}/{email}', name: 'app_register')]
+    #[Route('/register/coach', name: 'app_register_coach')]
     public function register(
         Request $request,
-        ManagerRegistry $doctrine,
+        EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
-        RoleRepository $roleRepository,
-        User $coach = null,
-        string $email = null): Response
-    {
-        $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $email]);
-        $entityManager = $doctrine->getManager();
-        if (isset($user)) {
-            // $this->addFlash('message', 'You are added as a client'); //TODO Fixen
-            $user->addCoach($coach);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_login');
-        }
+        RoleRepository $roleRepository
+    ): Response {
         $user = new User();
-        if (null != $coach) {
-            if ('coach' == $coach->getRole()->first()->getName()) {
-                $user->addCoach($coach);
-                $user->setEmail($email);
-            }
-        }
+        $user->setUserToCoach();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -55,13 +39,13 @@ class RegisterController extends BaseController
                 $user,
                 $user->getPassword()
             ));
-            $user->addRole($roleRepository->find(2));
+            $user->addRole($roleRepository->find(1));
 
             $entityManager->persist($user);
             $entityManager->flush();
             // $this->addFlash('success', $translator->trans('user.register.success'));
 
-            return $this->redirectToRoute('app_client');
+            return $this->redirectToRoute('app_coach');
         }
 
         return $this->render('security/register.html.twig', [

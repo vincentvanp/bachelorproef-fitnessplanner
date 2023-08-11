@@ -27,7 +27,7 @@ class WeightIndexController extends BaseController
     ) {
     }
 
-    #[Route('/weight', name: 'app_weight')]
+    #[Route('/client/weight', name: 'app_weight')]
     public function index(Request $request): Response
     {
         $this->updateWeights();

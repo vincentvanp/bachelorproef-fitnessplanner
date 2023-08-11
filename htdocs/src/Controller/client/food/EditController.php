@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EditController extends BaseController
 {
-    #[Route('/food/edit/{id}', name: 'app_food_edit')]
+    #[Route('/client/food/edit/{id}', name: 'app_food_edit')]
     public function editFood(Request $request, Food $food, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(FoodType::class, $food);

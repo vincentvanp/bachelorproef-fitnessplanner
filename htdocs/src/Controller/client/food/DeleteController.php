@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DeleteController extends BaseController
 {
-    #[Route('food/delete/{id}', name: 'app_food_delete')]
+    #[Route('client/food/delete/{id}', name: 'app_food_delete')]
     public function deleteFood(Food $food, EntityManagerInterface $em): Response
     {
         $em->remove($food);

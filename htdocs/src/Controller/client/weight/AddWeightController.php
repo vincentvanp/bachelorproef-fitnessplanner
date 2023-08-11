@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddWeightController extends BaseController
 {
-    #[Route('/weight/add', name: 'app_weight_add')]
+    #[Route('/client/weight/add', name: 'app_weight_add')]
     public function addWeight(Request $request, EntityManagerInterface $em, WeightRepository $weightRepository): Response
     {
         $weight = new Weight();

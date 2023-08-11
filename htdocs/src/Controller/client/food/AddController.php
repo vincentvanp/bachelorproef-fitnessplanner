@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddController extends BaseController
 {
-    #[Route('/food/add', name: 'app_food_add')]
+    #[Route('/client/food/add', name: 'app_food_add')]
     public function addFood(Request $request, EntityManagerInterface $em): Response
     {
         $food = new Food();

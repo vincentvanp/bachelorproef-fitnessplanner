@@ -127,6 +127,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function setUserToClient(): static
+    {
+        $this->roles[] = 'ROLE_CLIENT';
+
+        return $this;
+    }
+
+    public function setUserToCoach(): static
+    {
+        $this->roles[] = 'ROLE_COACH';
+
+        return $this;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
