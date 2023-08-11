@@ -11,17 +11,7 @@ class DefaultController extends BaseController
     #[Route('/', name: 'app_default')]
     public function defaultRoute(): Response
     {
-        $user = $this->getUser();
-
-        $role = $user->getRole();
-
-        if (1 != count($role)) { // TODO Pagina fiksen
-            return $this->render('calendar/both/index.html.twig');
-        }
-
-        $role = $role->first();
-
-        if ('coach' == $role->getName()) {
+        if (in_array('ROLE_COACH', $this->getUser()->getRoles())) {
             return $this->redirectToRoute('app_coach');
         }
 

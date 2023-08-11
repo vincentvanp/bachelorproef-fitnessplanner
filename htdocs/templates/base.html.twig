@@ -34,7 +34,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            {% if app.user.role.first.name == "coach" %}
+            {% if is_granted('ROLE_COACH') %}
 
                 <!-- Heading -->
                 <div class="sidebar-heading">

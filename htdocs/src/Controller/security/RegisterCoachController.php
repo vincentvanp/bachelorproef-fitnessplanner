@@ -5,7 +5,6 @@ namespace App\Controller\security;
 use App\Controller\BaseController;
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +17,7 @@ class RegisterCoachController extends BaseController
     public function register(
         Request $request,
         EntityManagerInterface $entityManager,
-        UserPasswordHasherInterface $passwordHasher,
-        RoleRepository $roleRepository
+        UserPasswordHasherInterface $passwordHasher
     ): Response {
         $user = new User();
         $user->setUserToCoach();
@@ -39,7 +37,6 @@ class RegisterCoachController extends BaseController
                 $user,
                 $user->getPassword()
             ));
-            $user->addRole($roleRepository->find(1));
 
             $entityManager->persist($user);
             $entityManager->flush();

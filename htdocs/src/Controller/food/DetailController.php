@@ -15,7 +15,7 @@ class DetailController extends BaseController
     #[Route('/food/detail/{id}', name: 'app_food_detail')]
     public function foodDetail(Food $food, Request $request, EntityManagerInterface $em): Response
     {
-        if ('client' == $this->getUser()->getRole()->first()->getName()) {
+        if (in_array('ROLE_CLIENT', $this->getUser()->getRoles())) {
             return $this->render('client/food/detail.html.twig', [
                 'food' => $food,
             ]);

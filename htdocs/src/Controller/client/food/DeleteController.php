@@ -16,6 +16,6 @@ class DeleteController extends BaseController
         $em->remove($food);
         $em->flush();
 
-        return $this->redirectToRoute('app_coach_client_food');
+        return $this->redirectToRoute('app_client_food');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Controller\security;
 use App\Controller\BaseController;
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\RoleRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,6 @@ class RegisterClientController extends BaseController
         Request $request,
         ManagerRegistry $doctrine,
         UserPasswordHasherInterface $passwordHasher,
-        RoleRepository $roleRepository,
         User $coach = null,
         string $email = null): Response
     {
@@ -35,7 +33,7 @@ class RegisterClientController extends BaseController
         $user = new User();
         $user->setUserToClient();
         if (null != $coach) {
-            if ('coach' == $coach->getRole()->first()->getName()) {
+            if (in_array('ROLE_COACH', $coach->getRoles())) {
                 $user->addCoach($coach);
                 $user->setEmail($email);
             }
@@ -56,7 +54,6 @@ class RegisterClientController extends BaseController
                 $user,
                 $user->getPassword()
             ));
-            $user->addRole($roleRepository->find(2));
 
             $entityManager->persist($user);
             $entityManager->flush();

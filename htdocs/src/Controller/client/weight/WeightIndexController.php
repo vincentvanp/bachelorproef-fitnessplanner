@@ -58,7 +58,7 @@ class WeightIndexController extends BaseController
                     'year' => 'year',
                 ],
             ])
-            ->add('send', SubmitType::class)
+            ->add('filter', SubmitType::class)
             ->getForm();
     }
 
