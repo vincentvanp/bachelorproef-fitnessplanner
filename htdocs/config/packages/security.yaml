@@ -19,7 +19,8 @@ security:
             form_login:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
-                check_path: app_login     
+                check_path: app_login
+                success_handler: App\EventListener\CustomAuthenticationSuccessHandler
             logout:
                 path: app_logout       
 
@@ -32,6 +33,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: '^/coach', roles: ROLE_COACH }
+        - { path: '^/client', roles: ROLE_CLIENT }
         - { path: '^/login', roles: PUBLIC_ACCESS }
         - { path: '^/register', roles: PUBLIC_ACCESS }
         - { path: '^/', roles: IS_AUTHENTICATED_FULLY }

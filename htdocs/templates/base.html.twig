@@ -31,17 +31,10 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            {% if app.user.role.first.name == "coach" %}
+            {% if is_granted('ROLE_COACH') %}
 
                 <!-- Heading -->
                 <div class="sidebar-heading">
@@ -88,7 +81,7 @@
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" aria-expanded="true">
+                    <a class="nav-link" href="{{ path('app_client_agenda') }}" aria-expanded="true">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Calendar</span>
                     </a>
@@ -112,21 +105,21 @@
 
                 <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" href="{{ path('app_client_food') }}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Food overview</span></a>
                 </li>
 
                 <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" href="{{ path('app_food_add') }}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Quickly add food</span></a>
                 </li>
 
                 <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" href="{{ path('app_weight') }}">
                         <i class="fas fa-fw fa-chart-area"></i>
                         <span>Weight</span></a>
                 </li>

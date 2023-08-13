@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TrainingController!{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('app_food_add') }}">Add a meal</a>
+
+    {{ form(dateFilter) }}
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Food overview</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div>
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" style="width: 100%;">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 15%;">Title</th>
+                                    <th style="width: 15%;">Category</th>
+                                    <th style="width: 55%;">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for food in foods %}
+                                    <tr>
+                                        <td><a href="{{ path('app_food_detail', {'id': food.id}) }}">{{ food.title }}</a></td>
+                                        <td>{{ food.category }}</td>
+                                        <td>{{ food.description }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

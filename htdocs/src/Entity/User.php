@@ -44,10 +44,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'coach', targetEntity: Training::class)]
     private Collection $givenTrainings;
-
-    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
-    private Collection $role;
-
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'clients')]
     #[ORM\JoinTable(name: 'client_coach')]
     #[ORM\JoinColumn(name: 'client_id', referencedColumnName: 'id')]
@@ -64,14 +60,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Food::class)]
     private Collection $food;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Weight::class)]
+    private Collection $weights;
+
+    #[ORM\OneToMany(mappedBy: 'coach', targetEntity: TokenEntity::class)]
+    private Collection $registerTokens;
+
     public function __construct()
     {
         $this->givenTrainings = new ArrayCollection();
-        $this->role = new ArrayCollection();
         $this->coaches = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->trainings = new ArrayCollection();
         $this->food = new ArrayCollection();
+        $this->weights = new ArrayCollection();
+        $this->registerTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +122,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function setUserToClient(): static
+    {
+        $this->roles[] = 'ROLE_CLIENT';
+
+        return $this;
+    }
+
+    public function setUserToCoach(): static
+    {
+        $this->roles[] = 'ROLE_COACH';
 
         return $this;
     }
@@ -214,30 +231,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $training->setCoach(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Role>
-     */
-    public function getRole(): Collection
-    {
-        return $this->role;
-    }
-
-    public function addRole(Role $role): static
-    {
-        if (!$this->role->contains($role)) {
-            $this->role->add($role);
-        }
-
-        return $this;
-    }
-
-    public function removeRole(Role $role): static
-    {
-        $this->role->removeElement($role);
 
         return $this;
     }
@@ -344,6 +337,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($food->getUser() === $this) {
                 $food->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Weight>
+     */
+    public function getWeights(): Collection
+    {
+        return $this->weights;
+    }
+
+    public function addWeight(Weight $weight): static
+    {
+        if (!$this->weights->contains($weight)) {
+            $this->weights->add($weight);
+            $weight->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWeight(Weight $weight): static
+    {
+        if ($this->weights->removeElement($weight)) {
+            // set the owning side to null (unless already changed)
+            if ($weight->getUser() === $this) {
+                $weight->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TokenEntity>
+     */
+    public function getRegisterTokens(): Collection
+    {
+        return $this->registerTokens;
+    }
+
+    public function addRegisterToken(TokenEntity $registerToken): static
+    {
+        if (!$this->registerTokens->contains($registerToken)) {
+            $this->registerTokens->add($registerToken);
+            $registerToken->setCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegisterToken(TokenEntity $registerToken): static
+    {
+        if ($this->registerTokens->removeElement($registerToken)) {
+            // set the owning side to null (unless already changed)
+            if ($registerToken->getCoach() === $this) {
+                $registerToken->setCoach(null);
             }
         }
 

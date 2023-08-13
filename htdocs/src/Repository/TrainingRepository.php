@@ -42,26 +42,13 @@ class TrainingRepository extends ServiceEntityRepository
     /**
      * @return array<Training>
      */
-    public function findCoachPersonal(int $coachId, \DateTime $start, \DateTime $end): array
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.withTrainer = 1')
-            ->andWhere('t.coach = :coach')
-            ->andWhere(':start <= t.startTime')
-            ->andWhere('t.startTime <= :end')
-            ->setParameter('coach', $coachId)
-            ->setParameter('start', $start)
-            ->setParameter('end', $end)
-            ->orderBy('t.startTime', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @return array<Training>
-     */
-    public function findClientTrainings(int $clientId, \DateTime $start, \DateTime $end, int $coachId = null): array
-    {
+    public function findTrainings(
+        \DateTime $start,
+        \DateTime $end,
+        int $clientId = null,
+        int $coachId = null,
+        bool $isWithTrainer = false
+    ): array {
         $query = $this->createQueryBuilder('t')
             ->andWhere(':start <= t.startTime')
             ->andWhere('t.startTime <= :end')
@@ -73,8 +60,16 @@ class TrainingRepository extends ServiceEntityRepository
                 ->setParameter('coach', $coachId);
         }
 
-        return $query->innerJoin('t.clients', 'c', 'WITH', 'c.id = :clientId')
-                ->setParameter('clientId', $clientId)
+        if ($isWithTrainer) {
+            $query->andWhere('t.withTrainer = 1');
+        }
+
+        if ($clientId) {
+            $query->innerJoin('t.clients', 'c', 'WITH', 'c.id = :clientId')
+                ->setParameter('clientId', $clientId);
+        }
+
+        return $query
                 ->orderBy('t.startTime', 'ASC')
                 ->getQuery()
                 ->getResult();
