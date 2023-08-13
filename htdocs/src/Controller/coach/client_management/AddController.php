@@ -3,6 +3,8 @@
 namespace App\Controller\coach\client_management;
 
 use App\Controller\BaseController;
+use App\Entity\TokenEntity;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,8 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddController extends BaseController
 {
-    public function __construct(private readonly MailerInterface $mailer)
-    {
+    public function __construct(
+        private readonly MailerInterface $mailer,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     #[Route('/coach/add/client', name: 'app_coach_client_add')]
@@ -31,7 +35,10 @@ class AddController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->sendEmail($form->getData());
+            $data = $form->getData();
+            $tokenEntity = $this->createToken($data);
+            $data['token'] = $tokenEntity->getToken();
+            $this->sendEmail($data);
 
             return $this->redirectToRoute('app_coach');
         }
@@ -53,10 +60,26 @@ class AddController extends BaseController
             ->htmlTemplate('emails/signup.html.twig')
             ->context([
                 'coach' => $this->getUser(),
-                'address' => $data['email'],
+                'token' => $data['token'],
                 'message' => $data['message'],
             ]);
 
         $this->mailer->send($email);
+    }
+
+    /**
+     * @param array<string, string> $data
+     */
+    private function createToken(array $data): TokenEntity
+    {
+        $tokenEntity = new TokenEntity();
+        $tokenEntity->setToken(bin2hex(random_bytes(32)));
+        $tokenEntity->setEmail($data['email']);
+        $tokenEntity->setCoach($this->getUser());
+        $tokenEntity->setExpiresAt(new \DateTime('now + 1 week'));
+        $this->entityManager->persist($tokenEntity);
+        $this->entityManager->flush();
+
+        return $tokenEntity;
     }
 }

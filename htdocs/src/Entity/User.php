@@ -63,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Weight::class)]
     private Collection $weights;
 
+    #[ORM\OneToMany(mappedBy: 'coach', targetEntity: TokenEntity::class)]
+    private Collection $registerTokens;
+
     public function __construct()
     {
         $this->givenTrainings = new ArrayCollection();
@@ -71,6 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->trainings = new ArrayCollection();
         $this->food = new ArrayCollection();
         $this->weights = new ArrayCollection();
+        $this->registerTokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -363,6 +367,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($weight->getUser() === $this) {
                 $weight->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TokenEntity>
+     */
+    public function getRegisterTokens(): Collection
+    {
+        return $this->registerTokens;
+    }
+
+    public function addRegisterToken(TokenEntity $registerToken): static
+    {
+        if (!$this->registerTokens->contains($registerToken)) {
+            $this->registerTokens->add($registerToken);
+            $registerToken->setCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegisterToken(TokenEntity $registerToken): static
+    {
+        if ($this->registerTokens->removeElement($registerToken)) {
+            // set the owning side to null (unless already changed)
+            if ($registerToken->getCoach() === $this) {
+                $registerToken->setCoach(null);
             }
         }
 

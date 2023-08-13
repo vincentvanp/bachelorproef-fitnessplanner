@@ -14,11 +14,11 @@ class LoginController extends BaseController
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+        // TODO Refer voor als ze ingelogd zijn
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'security' => 1,
         ]);
     }
 }
