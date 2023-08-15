@@ -30,7 +30,7 @@ class AddController extends BaseController
         }
 
         return $this->render('client/food/add.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 }

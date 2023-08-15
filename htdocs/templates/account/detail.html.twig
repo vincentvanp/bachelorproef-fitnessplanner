@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+    <h1>Account overview</h1>
+
+    <div><b>First name:</b> {{ user.firstName }} </div>
+
+    <div><b>Last name:</b> {{ user.lastName }} </div>
+
+    <div><b>Registered email:</b> {{ user.email }} </div>
+
+    <div><a href="{{ path('app_account_edit') }}">Change your info</a></div>
+
+    <div><a href="#">Change your password</a></div>
+
+
+{% endblock %}
