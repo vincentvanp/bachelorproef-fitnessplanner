@@ -66,6 +66,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'coach', targetEntity: TokenEntity::class)]
     private Collection $registerTokens;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?AccountSettings $accountSettings;
+
     public function __construct()
     {
         $this->givenTrainings = new ArrayCollection();
@@ -75,6 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->food = new ArrayCollection();
         $this->weights = new ArrayCollection();
         $this->registerTokens = new ArrayCollection();
+        $this->accountSettings = new AccountSettings();
     }
 
     public function getId(): ?int
@@ -399,6 +404,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $registerToken->setCoach(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAccountSettings(): ?AccountSettings
+    {
+        return $this->accountSettings;
+    }
+
+    public function setAccountSettings(AccountSettings $accountSettings): static
+    {
+        $this->accountSettings = $accountSettings;
 
         return $this;
     }

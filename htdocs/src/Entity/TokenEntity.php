@@ -26,6 +26,9 @@ class TokenEntity
     #[ORM\ManyToOne(inversedBy: 'registerTokens')]
     private ?User $coach = null;
 
+    #[ORM\ManyToOne]
+    private ?User $madeBy = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +82,18 @@ class TokenEntity
     public function setCoach(?User $coach): static
     {
         $this->coach = $coach;
+
+        return $this;
+    }
+
+    public function getMadeBy(): ?User
+    {
+        return $this->madeBy;
+    }
+
+    public function setMadeBy(?User $madeBy): static
+    {
+        $this->madeBy = $madeBy;
 
         return $this;
     }

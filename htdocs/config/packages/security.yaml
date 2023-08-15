@@ -37,6 +37,7 @@ security:
         - { path: '^/client', roles: ROLE_CLIENT }
         - { path: '^/login', roles: PUBLIC_ACCESS }
         - { path: '^/register', roles: PUBLIC_ACCESS }
+        - { path: '^/account/reset/password', roles: PUBLIC_ACCESS}
         - { path: '^/', roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/profile, roles: ROLE_USER }
 
