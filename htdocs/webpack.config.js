@@ -22,6 +22,10 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('sb-admin-2', './node_modules/startbootstrap-sb-admin-2/js/sb-admin-2.js')
+    .addEntry('landing', [
+        './node_modules/startbootstrap-personal/src/js/scripts.js',
+        './node_modules/bootstrap/dist/js/bootstrap.bundle.js'
+    ])
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

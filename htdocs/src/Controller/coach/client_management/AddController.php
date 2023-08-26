@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddController extends BaseController
 {
     public function __construct(
-        private MailerInterface $mailer,
-        private EntityManagerInterface $entityManager
+        private readonly MailerInterface $mailer,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 

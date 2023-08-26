@@ -30,6 +30,7 @@
         "bootstrap": "4.6",
         "popper.js": "^1.16.1",
         "postcss": "7.0.0",
+        "startbootstrap-personal": "^1.0.1",
         "startbootstrap-sb-admin-2": "^4.1.4"
     }
 }

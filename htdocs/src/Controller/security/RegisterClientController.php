@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RegisterClientController extends BaseController
 {
@@ -21,8 +22,10 @@ class RegisterClientController extends BaseController
         ManagerRegistry $doctrine,
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
+        TokenStorageInterface $tokenStorage,
         string $token = null
     ): Response {
+        $tokenStorage->setToken(null);
         $tokenEntity = $entityManager->getRepository(TokenEntity::class)->findOneBy(['token' => $token]);
         if (isset($tokenEntity) && $user = $doctrine->getRepository(User::class)->findOneBy(['email' => $tokenEntity->getEmail()])) {
             $user->addCoach($tokenEntity->getCoach());
@@ -41,6 +44,7 @@ class RegisterClientController extends BaseController
             // $this->addFlash('message', 'You are added as a client'); //TODO Fixen
             $user->addCoach($tokenEntity->getCoach());
             $user->setEmail($tokenEntity->getEmail());
+            $tokenEntity->setExpiresAt(new \DateTime('now - 1 day'));
         }
         $form = $this->createForm(UserType::class, $user);
 
