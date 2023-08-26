@@ -45,8 +45,14 @@ RUN apt-get update -qq && apt-get install -y nodejs yarn
 # Set the working directory
 WORKDIR /var/www/html
 
+# Copy the composer.json and composer.lock files
+COPY ./htdocs/composer.json ./htdocs/composer.lock ./
+
 # Install project dependencies
 RUN composer install --no-scripts --no-autoloader
+
+# Copy the rest of the application code
+COPY ./htdocs ./
 
 # Install remaining dependencies and build assets
 RUN composer dump-autoload --optimize --classmap-authoritative && \
