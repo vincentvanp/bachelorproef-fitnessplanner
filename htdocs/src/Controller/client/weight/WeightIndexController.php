@@ -39,10 +39,14 @@ class WeightIndexController extends BaseController
             $this->period = $data['period'];
             $this->updateWeights();
         }
+        $chart = 'No data for this period.';
+        if (!empty($this->weightData)) {
+            $chart = $this->createGraph();
+        }
 
         return $this->render('weight/index.html.twig', [
             'form' => $form,
-            'chart' => $this->createGraph(),
+            'chart' => $chart,
         ]);
     }
 
@@ -88,7 +92,7 @@ class WeightIndexController extends BaseController
             'labels' => $graphArray['labels'],
             'datasets' => [
                 [
-                    'label' => 'My First dataset',
+                    'label' => 'Weight',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $graphArray['values'],
