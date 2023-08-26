@@ -35,10 +35,26 @@ services:
             - 1025:1025
             - 8025:8025
         networks:
-            - tutorial          
+            - tutorial
+
+    # RabbitMQ container
+    rabbitmq:
+        image: "rabbitmq:management"
+        container_name: tutorial_rabbitmq
+        ports:
+            - "15672:15672" # RabbitMQ Management UI
+            - "5672:5672"   # RabbitMQ Default Port
+        volumes:
+            - rabbitmq-data:/var/lib/rabbitmq
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        networks:
+            - tutorial
 
 networks:
     tutorial:
 
 volumes:
     db-data:
+    rabbitmq-data:

@@ -6,23 +6,55 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 class Report
 {
-    private int $percentageCompleted;
+    private int $advisedTrainingTime;
+    private int $effectiveTrainingTime;
+    private int $dailyAverage;
+    private float $totalWeightDifference;
+    private ?Chart $weightChart = null;
+    private float $percentageCompleted;
 
-    public function __construct(
-        private readonly User $User,
-        private readonly int $advisedTrainingTime,
-        private readonly int $effectiveTrainingTime,
-        private readonly int $dailyAverage,
-        private readonly float $totalWeightDifference,
-        private readonly float $weightDiffLastMonth,
-        private readonly Chart $weightChart,
-    ) {
-        $this->percentageCompleted = ($this->effectiveTrainingTime / $this->advisedTrainingTime) * 100; // TODO: Checken dat dit niet altijd 0 is
+    public function __construct(private readonly User $user)
+    {
+    }
+
+    public function setAdvisedTrainingTime(int $advisedTrainingTime): void
+    {
+        $this->advisedTrainingTime = $advisedTrainingTime;
+    }
+
+    public function setEffectiveTrainingTime(int $effectiveTrainingTime): void
+    {
+        $this->effectiveTrainingTime = $effectiveTrainingTime;
+        $this->calculatePercentageCompleted();
+    }
+
+    public function setDailyAverage(int $dailyAverage): void
+    {
+        $this->dailyAverage = $dailyAverage;
+    }
+
+    public function setTotalWeightDifference(float $totalWeightDifference): void
+    {
+        $this->totalWeightDifference = $totalWeightDifference;
+    }
+
+    public function setWeightChart(?Chart $weightChart): void
+    {
+        $this->weightChart = $weightChart;
+    }
+
+    public function calculatePercentageCompleted(): void
+    {
+        if ($this->advisedTrainingTime > 0) {
+            $this->percentageCompleted = ($this->effectiveTrainingTime / $this->advisedTrainingTime) * 100;
+        } else {
+            $this->percentageCompleted = 0;
+        }
     }
 
     public function getUser(): User
     {
-        return $this->User;
+        return $this->user;
     }
 
     public function getAdvisedTrainingTime(): int
@@ -35,7 +67,7 @@ class Report
         return $this->effectiveTrainingTime;
     }
 
-    public function getPercentageCompleted(): int
+    public function getPercentageCompleted(): float
     {
         return $this->percentageCompleted;
     }
@@ -50,12 +82,7 @@ class Report
         return $this->totalWeightDifference;
     }
 
-    public function getWeightDiffLastMonth(): float
-    {
-        return $this->weightDiffLastMonth;
-    }
-
-    public function getWeightChart(): Chart
+    public function getWeightChart(): ?Chart
     {
         return $this->weightChart;
     }
