@@ -42,22 +42,5 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update -qq && apt-get install -y nodejs yarn
 
-# Set the working directory
-WORKDIR /var/www/html
-
-# Copy the composer.json and composer.lock files
-COPY ./htdocs/composer.json ./htdocs/composer.lock ./
-
-# Install project dependencies
-RUN composer install --no-scripts --no-autoloader
-
-# Copy the rest of the application code
-COPY ./htdocs ./
-
-# Install remaining dependencies and build assets
-RUN composer dump-autoload --optimize --classmap-authoritative && \
-    yarn install && \
-    yarn build
-
 WORKDIR /var/www/html
 COPY ./htdocs/public /var/www/html
