@@ -19,6 +19,9 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install pdo pdo_mysql mysqli gd opcache intl zip calendar dom mbstring zip gd xsl && a2enmod rewrite
 RUN pecl install apcu && docker-php-ext-enable apcu
+# Install yarn
+RUN apt-get update && apt-get install -y gnupg2 && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && apt-get update && apt-get install -y yarn
+
     
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
