@@ -33,5 +33,22 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions amqp
 
+# Install Composer
+RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
+    mv composer.phar /usr/local/bin/composer
+
+# Install yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -qq && apt-get install -y nodejs yarn
+
+# Install project dependencies
+RUN composer install --no-scripts --no-autoloader
+
+# Install remaining dependencies and build assets
+RUN composer dump-autoload --optimize --classmap-authoritative && \
+    yarn install && \
+    yarn build
+
 WORKDIR /var/www/html
 COPY ./htdocs/public /var/www/html
