@@ -6,7 +6,23 @@
 
     <a href="{{ path('app_client_agenda_add') }}">Add a training</a>
 
-    {{ form(dateFilter) }}
+    {{ form_start(dateFilter) }}
+        <div class="row mb-4 mt-4 justify-content-lg-start">
+            <div class="col-3">
+                {{ form_label(dateFilter.start, 'Start') }}:
+                {{ form_widget(dateFilter.start) }}
+            </div>
+            <div class="col-3">
+                {{ form_label(dateFilter.end, 'End') }}:
+                {{ form_widget(dateFilter.end) }}
+            </div>
+
+            <div class="col-2">
+                {{ form_row(dateFilter.send) }}
+            </div>
+        </div>
+    {{ form_end(dateFilter) }}
+
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Trainings</h6>

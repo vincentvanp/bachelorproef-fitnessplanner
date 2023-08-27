@@ -4,7 +4,7 @@ namespace App\Controller\client\agenda;
 
 use App\Controller\BaseController;
 use App\Repository\TrainingRepository;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +20,17 @@ class OverviewController extends BaseController
             'end' => new \DateTime('now + 1 week'),
         ];
         $form = $this->createFormBuilder($data)
-            ->add('start', DateTimeType::class)
-            ->add('end', DateTimeType::class)
-            ->add('send', SubmitType::class)
+            ->add('start', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+            ])
+            ->add('end', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+            ])
+            ->add('send', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary btn-sm text-white'],
+            ])
             ->getForm();
 
         $form->handleRequest($request);
@@ -39,7 +47,7 @@ class OverviewController extends BaseController
 
         return $this->render('client/calendar/index.html.twig', [
             'trainings' => $trainings,
-            'dateFilter' => $form->createView(),
+            'dateFilter' => $form,
         ]);
     }
 }
