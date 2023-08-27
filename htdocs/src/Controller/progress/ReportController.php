@@ -27,7 +27,7 @@ class ReportController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $messageBus->dispatch(
-                new ReportRequest($form->get('selected_month')->getData(),
+                new ReportRequest($form->get('selectedMonth')->getData(),
                     $user,
                     $this->getUser()->getEmail())
             );
