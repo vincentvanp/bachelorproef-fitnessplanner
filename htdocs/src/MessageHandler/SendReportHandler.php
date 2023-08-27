@@ -64,7 +64,7 @@ class SendReportHandler
             $report->setEffectiveTrainingTime(0);
         } else {
             $report->setEffectiveTrainingTime(array_sum($effectiveTraining));
-            $report->setDailyAverage($report->getEffectiveTrainingTime() / count($effectiveTraining));
+            $report->setDailyAverage($this->calculateDailyAverage($start, $end, $report->getEffectiveTrainingTime()));
         }
 
         $report->setTotalWeightDifference($this->getWeightDifference($start, $end, $user));
@@ -84,5 +84,12 @@ class SendReportHandler
         }
 
         return $weightData[count($weightData) - 1]->getValue() - $weightData[0]->getValue();
+    }
+
+    private function calculateDailyAverage(\DateTime $start, \DateTime $end, int $effectiveTrainingTime): int
+    {
+        $interval = $start->diff($end);
+
+        return $effectiveTrainingTime / $interval->days;
     }
 }
