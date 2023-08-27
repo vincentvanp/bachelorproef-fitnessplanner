@@ -4,13 +4,24 @@
 
 {% block body %}
 
-    <a href="{{ path('app_food_add') }}">Add a meal</a>
+    {{ form_start(dateFilter) }}
+    <div class="row mb-4 mt-4 justify-content-lg-start">
+        <div class="col-3">
+            {{ form_label(dateFilter.date, 'Start') }}:
+            {{ form_widget(dateFilter.date) }}
+        </div>
 
-    {{ form(dateFilter) }}
+        <div class="col-3">
+            {{ form_row(dateFilter.send) }}
+        </div>
+
+    </div>
+    {{ form_end(dateFilter) }}
 
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Food overview</h6>
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="mt-1 font-weight-bold text-primary">Food overview</h6>
+            <a href="{{ path('app_food_add') }}" class="btn btn-sm btn-primary text-white float-end" role="button">Add a meal</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

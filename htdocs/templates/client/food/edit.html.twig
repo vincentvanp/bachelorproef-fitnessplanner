@@ -5,6 +5,24 @@
 
 {% block body %}
 
-{{ form(form) }}
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_row(form.title) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.date, 'Add a date') }}<br>
+        {{ form_row(form.date) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.category) }}
+    </div>
+
+
+    {{ form_row(form.save, {'label': 'Save changes'}) }}
+
+    {{ form_end(form) }}
 
 {% endblock %}

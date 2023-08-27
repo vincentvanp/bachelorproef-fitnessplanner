@@ -3,20 +3,33 @@
 {% block title %}Hello EditWeightController!{% endblock %}
 {% block body %}
 
-    <h1>Weight overview</h1>
-    <a href="{{ path('app_weight_add') }}">Add a new weight</a>
-    <div><a href="{{ path('app_weight_add') }}"></a></div>
 
-    <div>{{ form(form) }}</div>
+
     <div class="row">
 
-        <div class="col-xl-8 col-lg-7">
+        <div class="col-xl-8 col-lg-8">
 
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Weight overview</h6>
+                <div class="card-header py-3 d-flex justify-content-between">
+                    <h6 class="mt-1 font-weight-bold text-primary">Weight overview</h6>
+                    <a href="{{ path('app_weight_add') }}" class="btn btn-sm btn-primary text-white float-end" role="button">Add a new weight</a>
                 </div>
                 <div class="card-body">
+                    {{ form_start(form) }}
+                    <div class="row mb-4 mt-4 justify-content-lg-start">
+                        <div class="col-3 my-auto">
+                            {{ form_label(form.period, 'Select a period') }}:
+                        </div>
+                        <div class="col-3">
+                            {{ form_widget(form.period) }}
+                        </div>
+
+                        <div class="col-3 my-auto">
+                            {{ form_row(form.filter) }}
+                        </div>
+
+                    </div>
+                    {{ form_end(form) }}
                     <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                         {% if chart == 'No data for this period.' %}
                             <div>{{ chart }}</div>

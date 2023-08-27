@@ -18,8 +18,14 @@ class HomepageController extends BaseController
         $data = ['date' => new \DateTime('now')];
 
         $form = $this->createFormBuilder($data)
-            ->add('date', DateType::class)
-            ->add('send', SubmitType::class)
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+            ])
+            ->add('send', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary btn-sm text-white'],
+                'label' => 'Filter',
+            ])
             ->getForm();
 
         $form->handleRequest($request);
