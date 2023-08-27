@@ -3,9 +3,6 @@
 {% block title %}Hello TrainingController!{% endblock %}
 
 {% block body %}
-
-    <a href="{{ path('app_client_agenda_add') }}">Add a training</a>
-
     {{ form_start(dateFilter) }}
         <div class="row mb-4 mt-4 justify-content-lg-start">
             <div class="col-3">
@@ -17,15 +14,17 @@
                 {{ form_widget(dateFilter.end) }}
             </div>
 
-            <div class="col-2">
+            <div class="col-3">
                 {{ form_row(dateFilter.send) }}
             </div>
+
         </div>
     {{ form_end(dateFilter) }}
 
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Trainings</h6>
+            <div class="card-header py-3 d-flex justify-content-between">
+                <h6 class="mt-1 font-weight-bold text-primary">Trainings</h6>
+                <a href="{{ path('app_client_agenda_add') }}" class="btn btn-sm btn-primary text-white float-end" role="button">Add a training</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

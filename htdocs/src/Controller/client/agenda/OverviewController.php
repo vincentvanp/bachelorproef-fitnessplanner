@@ -16,8 +16,8 @@ class OverviewController extends BaseController
     public function clientAgenda(TrainingRepository $trainingRepository, Request $request): Response
     {
         $data = [
-            'start' => new \DateTime('now'),
-            'end' => new \DateTime('now + 1 week'),
+            'start' => new \DateTime('now 00:00'),
+            'end' => new \DateTime('now + 1 week 23:59'),
         ];
         $form = $this->createFormBuilder($data)
             ->add('start', DateType::class, [
@@ -37,6 +37,7 @@ class OverviewController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $data['end']->modify('+1 day');
         }
 
         $trainings = $trainingRepository->findTrainings(
