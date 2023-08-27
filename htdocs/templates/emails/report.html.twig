@@ -3,23 +3,14 @@
 {% include 'security/head.html.twig' %}
     <body>
 
-     <h2>Your report for {{ date }}</h2>
+     <h2>Your report for {{ report.user.fullname}} - month {{ date }}</h2>
 
-     <p>Total time proposed by trainer: {{ report.advisedTrainingTime }}</p>
-     <p>Total time logged: {{ report.effectiveTrainingTime }}</p>
-     <p>Daily average active time: {{ report.dailyAverage }}</p>
-     <p>Percentage of trainings started: {{ report.percentageCompleted }}</p>
-     <p>Total weight gain/loss this month: {{ report.totalWeightDifference }}</p>
-     <div class="chart-area"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-         {% if report.weightChart is defined %}
-             {{ render_chart(report.weightChart, {'class': 'chartjs-render-monitor'}) }}
-         {% else %}
-             Not enough data for a weight graph
-         {% endif %}
+     <p>Total time proposed by trainer: {{ calculateMinutes(report.advisedTrainingTime) }}</p>
+     <p>Total time logged: {{ calculateMinutes(report.effectiveTrainingTime) }}</p>
+     <p>Daily average active time: {{ calculateMinutes(report.dailyAverage) }}</p>
+     <p>Percentage of trainings started: {{ report.percentageCompleted|round(2, 'floor') }}%</p>
+     <p>Total weight gain/loss this month: {{ report.totalWeightDifference }} kg</p>
 
-     </div>
-
-     <p></p>
     </body>
 </html>
 

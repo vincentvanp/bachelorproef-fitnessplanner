@@ -7,6 +7,7 @@ class ReportRequest
     public function __construct(
         private readonly string $month,
         private readonly User $user,
+        private readonly string $email,
     ) {
     }
 
@@ -18,5 +19,10 @@ class ReportRequest
     public function getMonth(): string
     {
         return $this->month;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 }

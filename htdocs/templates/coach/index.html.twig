@@ -56,7 +56,7 @@
 										    <td>{{ client.firstname }} {{ client.lastname }}</td>
 										    <td><a href="{{ path('app_coach_training', { 'id': client.id }) }}">Training</a></td>
 										    <td><a href="{{ path('app_coach_client_food', { 'id': client.id }) }}">Food</a></td>
-										    <td><a href="#">Progress</a></td>
+										    <td><a href="{{ path('app_report', { 'id': client.id }) }}">Progress</a></td>
 											<td><a href="{{ path('app_coach_client_remove_confirm', { 'id': client.id }) }}">Delete client</a></td>
 									    </tr>
                                     {% endfor %}

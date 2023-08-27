@@ -2,15 +2,12 @@
 
 namespace App\Entity;
 
-use Symfony\UX\Chartjs\Model\Chart;
-
 class Report
 {
     private int $advisedTrainingTime;
     private int $effectiveTrainingTime;
     private int $dailyAverage;
     private float $totalWeightDifference;
-    private ?Chart $weightChart = null;
     private float $percentageCompleted;
 
     public function __construct(private readonly User $user)
@@ -36,11 +33,6 @@ class Report
     public function setTotalWeightDifference(float $totalWeightDifference): void
     {
         $this->totalWeightDifference = $totalWeightDifference;
-    }
-
-    public function setWeightChart(?Chart $weightChart): void
-    {
-        $this->weightChart = $weightChart;
     }
 
     public function calculatePercentageCompleted(): void
@@ -80,10 +72,5 @@ class Report
     public function getTotalWeightDifference(): float
     {
         return $this->totalWeightDifference;
-    }
-
-    public function getWeightChart(): ?Chart
-    {
-        return $this->weightChart;
     }
 }
