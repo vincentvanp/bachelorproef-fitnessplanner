@@ -30,6 +30,7 @@ class OverviewController extends BaseController
             ])
             ->add('send', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-sm text-white'],
+                'label' => 'Filter',
             ])
             ->getForm();
 
