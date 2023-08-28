@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\delete_verification;
+namespace App\Form\training\coach\delete;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

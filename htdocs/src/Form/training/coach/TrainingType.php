@@ -4,6 +4,7 @@ namespace App\Form\training\coach;
 
 use App\Entity\Training;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -17,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrainingType extends AbstractType
 {
-    public function __construct()
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
@@ -60,11 +61,23 @@ class TrainingType extends AbstractType
             ->add('withTrainer', CheckboxType::class, [
                 'label' => 'Is this a personal training session?',
                 'required' => false,
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Add Training',
+            ]);
+        /*->add('save', SubmitType::class, [
+            'label' => 'Add Training',
+            'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
+        ])*/
+
+        if (!$this->entityManager->contains($options['data'])) {
+            $builder->add('save', SubmitType::class, [
+                'label' => 'Add training',
                 'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
             ]);
+        } else {
+            $builder->add('save', SubmitType::class, [
+                'label' => 'Update training',
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -5,7 +5,7 @@ namespace App\Controller\coach\training;
 use App\Controller\BaseController;
 use App\Entity\Training;
 use App\Entity\User;
-use App\Form\delete_verification\VerificationType;
+use App\Form\training\coach\delete\VerificationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;

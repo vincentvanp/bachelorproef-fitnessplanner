@@ -13,10 +13,12 @@
         {{ form_widget(form.confirm) }}
         {{ form_label(form.confirm, null, {'label_attr': {'class': 'form-check-label'}}) }}
     </div>
-    {{ form_row(form.delete) }}
-    <div class="form-group">
 
-        <a href="{{ path('app_coach_training', {'id': client.id}) }}">nee</a>
+    <div class="form-group">
+        {{ form_row(form.delete) }}
+        <a href="{{ path('app_coach_training', {'id': client.id}) }}" class="btn btn-info btn-lg btn-block w-100 mt-4 text-white">
+            Go back
+        </a>
     </div>
 {{ form_end(form) }}
 
