@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    <h2 class="font-weight-regular">You are about to delete this training - {{ training.title }} - {{ training.startTime|date('d-m-Y') }}</h2>
+
+    <p class="mt-5 mb-3">This process is not reversible and you will need to make the training again.</p>
+
+    <div class="form-group mt-3">
+        {{ form_widget(form.confirm) }}
+        {{ form_label(form.confirm, null, {'label_attr': {'class': 'form-check-label'}}) }}
+    </div>
+    {{ form_row(form.delete) }}
+    <div class="form-group">
+
+        <a href="{{ path('app_coach_training', {'id': client.id}) }}">nee</a>
+    </div>
+{{ form_end(form) }}
+
+{% endblock %}
