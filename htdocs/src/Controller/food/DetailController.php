@@ -4,7 +4,7 @@ namespace App\Controller\food;
 
 use App\Controller\BaseController;
 use App\Entity\Food;
-use App\Form\FoodReviewType;
+use App\Form\food\FoodReviewType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ class DetailController extends BaseController
     public function foodDetail(Food $food, Request $request, EntityManagerInterface $em): Response
     {
         if (in_array('ROLE_CLIENT', $this->getUser()->getRoles())) {
-            return $this->render('client/food/detail.html.twig', [
+            return $this->render('food/detail.html.twig', [
                 'food' => $food,
             ]);
         }
@@ -32,9 +32,9 @@ class DetailController extends BaseController
             return $this->redirectToRoute('app_coach_client_food', ['id' => $food->getUser()->getId()]);
         }
 
-        return $this->render('client/food/detail.html.twig', [
+        return $this->render('food/detail.html.twig', [
             'food' => $food,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 }

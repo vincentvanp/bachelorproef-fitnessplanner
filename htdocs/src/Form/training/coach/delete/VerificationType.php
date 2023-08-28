@@ -18,11 +18,13 @@ class VerificationType extends AbstractType
     {
         $builder
             ->add('confirm', CheckboxType::class, [
-                'label' => 'I am sure I want to delete this training',
+                // 'label' => 'I am sure I want to delete this training',
+                'label' => 'Confirm',
                 'required' => true,
             ])
             ->add('delete', SubmitType::class, [
-                'label' => 'Delete training',
+                // 'label' => 'Delete training',
+                'label' => 'Delete',
                 'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
             ]);
     }

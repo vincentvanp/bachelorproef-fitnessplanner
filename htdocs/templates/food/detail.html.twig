@@ -5,9 +5,16 @@
 
 {% block body %}
 
-    <a href="{{ path('app_client_food') }}" class="btn btn-sm btn-primary text-white" role="button">
-        Back to your food overview
-    </a>
+    {% if form is defined %}
+        <a href="{{ path('app_coach_client_food', {'id': food.user.id}) }}" class="btn btn-sm btn-primary text-white" role="button">
+            Back to the food overview
+        </a>
+    {% else %}
+        <a href="{{ path('app_client_food') }}" class="btn btn-sm btn-primary text-white" role="button">
+            Back to your food overview
+        </a>
+    {% endif %}
+
 
     <h1 class="font-weight-normal mt-3">Food - {{ food.title }} - {{ food.user.fullName }} - {{ food.date|date('d-m-Y') }}</h1>
 
