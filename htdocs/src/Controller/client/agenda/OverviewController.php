@@ -3,9 +3,8 @@
 namespace App\Controller\client\agenda;
 
 use App\Controller\BaseController;
+use App\Form\datefilter\TrainingType;
 use App\Repository\TrainingRepository;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,20 +18,7 @@ class OverviewController extends BaseController
             'start' => new \DateTime('now 00:00'),
             'end' => new \DateTime('now + 1 week 23:59'),
         ];
-        $form = $this->createFormBuilder($data)
-            ->add('start', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => true,
-            ])
-            ->add('end', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => true,
-            ])
-            ->add('send', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary btn-sm text-white'],
-                'label' => 'Filter',
-            ])
-            ->getForm();
+        $form = $this->createForm(TrainingType::class, $data);
 
         $form->handleRequest($request);
 
@@ -47,9 +33,9 @@ class OverviewController extends BaseController
             clientId: $this->getUser()->getId(),
         );
 
-        return $this->render('client/calendar/index.html.twig', [
+        return $this->render('training/index.html.twig', [
             'trainings' => $trainings,
-            'dateFilter' => $form,
+            'dateFilter' => $form->createView(),
         ]);
     }
 }

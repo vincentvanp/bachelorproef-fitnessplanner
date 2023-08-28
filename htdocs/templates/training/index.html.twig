@@ -24,7 +24,14 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="mt-1 font-weight-bold text-primary">Trainings</h6>
-                <a href="{{ path('app_client_agenda_add') }}" class="btn btn-sm btn-primary text-white float-end" role="button">Add a training</a>
+                {% if client is defined %}
+                    <a href="{{ path('app_coach_training_add', {'id': client.id}) }}" class="btn btn-sm btn-primary text-white float-end" role="button">
+                        Add a training for {{ client.firstName }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_client_agenda_add') }}" class="btn btn-sm btn-primary text-white float-end" role="button">Add a training</a>
+                {% endif %}
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -39,7 +46,12 @@
                                         <th style="width: 10%;">Date</th>
                                         <th style="width: 20%;">Duration completion</th>
                                         <th style="width: 10%;">Status</th>
-                                        <th style="width: 10%;">Complete</th>
+                                        {% if client is defined %}
+                                            <th style="width: 10%;">Review</th>
+                                        {% else %}
+                                            <th style="width: 10%;">Complete</th>
+                                        {% endif %}
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -56,7 +68,12 @@
                                             <td>{{ training.startTime|date('d-m-Y') }}</td>
                                             <td>{{ (training.durationActual / training.durationProposed) * 100 }}%</td>
                                             <td>{{ configureStatus(training) }}</td>
-                                            <td><a href="{{ path('app_client_training_complete', {'id': training.id}) }}">Complete</a></td>
+
+                                            {% if client is defined %}
+                                                <td><a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}">Review</a></td>
+                                            {% else %}
+                                                <td><a href="{{ path('app_client_training_complete', {'id': training.id}) }}">Complete</a></td>
+                                            {% endif %}
                                         </tr>
                                     {% endfor %}
                                     </tbody>
