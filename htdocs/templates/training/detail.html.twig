@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+    {% if isCoach is defined %}
+        <a href="{{ path('app_coach_training', {'id': client.id}) }}" class="btn btn-sm btn-primary text-white" role="button">
+            Back to the overview
+        </a>
+    {% else %}
+        <a href="{{ path('app_client_agenda') }}" class="btn btn-sm btn-primary text-white" role="button">
+            Back to your calender
+        </a>
+    {% endif %}
+
+
+    <h1 class="font-weight-normal mt-3">Training - {{ client.fullName }} - {{ training.startTime|date('d-m-Y') }}</h1>
+
+    <h3 class="font-weight-normal mt-4">{{ training.title }}</h3>
+
+    <h3 class="font-weight-normal mt-4">Description</h3>
+
+    <p>{{ training.description }}</p>
+
+    <h3 class="font-weight-normal mt-4">Duration</h3>
+
+    <p>
+        Proposed duration: {{ training.durationProposed }} <br>
+        Actual duration: {{ training.durationActual }} <br>
+    </p>
+
+    <h3 class="font-weight-normal mt-4">Comment client</h3>
+
+    <p>{{ training.commentClient }}</p>
+
+    <h3 class="font-weight-normal mt-4">Comment coach</h3>
+
+    <p>{{ training.commentCoach }}</p>
+
+
+    {% if isCoach is defined %}
+        <div class="row-cols-3 vw-50 justify-content-between">
+            <a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}" class="btn btn-info btn-lg btn-block text-white col-3" role="button">
+                Review
+            </a>
+            <a href="{{ path('app_coach_training_edit', {'client_id': client.id, 'training_id': training.id}) }}" class="btn btn-info btn-lg btn-block text-white col-3" role="button">
+                Edit
+            </a>
+            <a href="{{ path('app_coach_training_delete_check', {'client_id': client.id, 'training_id': training.id }) }}" class="btn btn-info btn-lg btn-block text-white col-3" role="button">
+                Delete
+            </a>
+        </div>
+
+    {% else %}
+        <a href="{{ path('app_client_training_complete', {'id': training.id}) }}" class="btn btn-info btn-lg btn-block w-100 mt-4" role="button">
+            Complete or edit this training
+        </a>
+    {% endif %}
+
+
+
+{% endblock %}

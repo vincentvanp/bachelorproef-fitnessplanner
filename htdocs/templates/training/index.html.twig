@@ -57,7 +57,15 @@
                                     <tbody>
                                     {% for training in trainings %}
                                         <tr>
-                                            <td><a href="{{ path('app_client_training_detail', {'id': training.id}) }}">{{ training.title }}</a></td>
+                                            <td>
+                                                <a href="
+                                                {% if client is defined %}
+                                                    {{ path('app_coach_training_detail', {'training_id': training.id, 'client_id': client.id}) }}
+                                                {% else %}
+                                                    {{ path('app_client_training_detail', {'id': training.id}) }}
+                                                {% endif %}">{{ training.title }}</a>
+
+                                            </td>
                                             <td>
                                                 {% if training.isWithTrainer %}
                                                     yes
@@ -68,12 +76,13 @@
                                             <td>{{ training.startTime|date('d-m-Y') }}</td>
                                             <td>{{ (training.durationActual / training.durationProposed) * 100 }}%</td>
                                             <td>{{ configureStatus(training) }}</td>
-
-                                            {% if client is defined %}
-                                                <td><a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}">Review</a></td>
-                                            {% else %}
-                                                <td><a href="{{ path('app_client_training_complete', {'id': training.id}) }}">Complete</a></td>
-                                            {% endif %}
+                                            <td>
+                                                {% if client is defined %}
+                                                    <a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}">Review</a>
+                                                {% else %}
+                                                    <a href="{{ path('app_client_training_complete', {'id': training.id}) }}">Complete</a>
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
