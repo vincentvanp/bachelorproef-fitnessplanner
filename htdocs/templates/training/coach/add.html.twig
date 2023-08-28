@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CoachAgendaController!
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_row(form.title) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.description) }}
+    </div>
+    <div class="form-group">
+        {{ form_row(form.durationProposed) }}
+    </div>
+    <div class="form-group row">
+        <div class="form-label">Select the participating clients</div>
+        {% for clientField in form.clients %}
+            <div class="form-outline col-3">
+                {{ form_widget(clientField) }}
+                {{ form_label(clientField, null, {'label_attr': {'class': 'form-check-label'}}) }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.startTime, 'Proposed start time: ') }}<br>
+        {{ form_widget(form.startTime) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.withTrainer) }}
+        {{ form_label(form.withTrainer, null, {'label_attr': {'class': 'form-check-label'}}) }}
+    </div>
+
+    {{ form_row(form.save) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}
