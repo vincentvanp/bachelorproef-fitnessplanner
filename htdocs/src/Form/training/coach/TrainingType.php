@@ -62,10 +62,6 @@ class TrainingType extends AbstractType
                 'label' => 'Is this a personal training session?',
                 'required' => false,
             ]);
-        /*->add('save', SubmitType::class, [
-            'label' => 'Add Training',
-            'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
-        ])*/
 
         if (!$this->entityManager->contains($options['data'])) {
             $builder->add('save', SubmitType::class, [

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\training\coach;
 
 use App\Entity\Training;
 use Symfony\Component\Form\AbstractType;
@@ -20,14 +20,18 @@ class ReviewTrainingType extends AbstractType
     {
         $builder
             ->add('commentCoach', TextareaType::class, [
-                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Give a short comment on your clients performance.',
+                ],
             ])
             ->add('reviewed', CheckboxType::class, [
+                'label' => 'Mark as reviewed?',
                 'required' => false,
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Review Training',
-                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
             ]);
     }
 
