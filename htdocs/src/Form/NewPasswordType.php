@@ -20,18 +20,28 @@ class NewPasswordType extends AbstractType
         $builder
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'New Password'],
-                'second_options' => ['label' => 'Confirm New Password'],
-                'invalid_message' => 'The password fields must match.',
-                'attr' => [
-                    'class' => 'form-control form-control-lg mt-4',
-                    'type' => 'password',
-                    'id' => 'inputPassword',
+                'first_options' => [
+                    'label' => false,
+                    'attr' => [
+                        'class' => 'form-control form-control-lg mt-4',
+                        'type' => 'password',
+                        'id' => 'inputPassword',
+                        'placeholder' => 'New Password',
+                    ],
                 ],
+                'second_options' => ['label' => false,
+                    'attr' => [
+                        'class' => 'form-control form-control-lg mt-4',
+                        'type' => 'password',
+                        'id' => 'inputPassword',
+                        'placeholder' => 'Confirm New Password',
+                    ],
+                ],
+                'invalid_message' => 'The password fields must match.',
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Save new password',
-                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
             ]);
     }
 

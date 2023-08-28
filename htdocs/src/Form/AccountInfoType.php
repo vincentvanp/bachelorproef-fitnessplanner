@@ -20,27 +20,27 @@ class AccountInfoType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => false,
+                'label' => 'First name',
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-4',
+                    'class' => 'form-control',
                     'id' => 'inputFirstName',
                     'type' => 'text',
                     'placeholder' => 'First name',
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'label' => false,
+                'label' => 'Last name',
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-4',
+                    'class' => 'form-control',
                     'id' => 'inputFirstName',
                     'type' => 'text',
                     'placeholder' => 'Last name',
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => false,
+                'label' => 'E-mail',
                 'attr' => [
-                    'class' => 'form-control form-control-lg mt-4',
+                    'class' => 'form-control',
                     'id' => 'inputEmail',
                     'type' => 'email',
                     'placeholder' => 'Email',
@@ -48,7 +48,7 @@ class AccountInfoType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Save settings',
-                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
             ]);
     }
 
