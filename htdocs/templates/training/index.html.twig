@@ -74,7 +74,7 @@
                                                 {% endif %}
                                             </td>
                                             <td>{{ training.startTime|date('d-m-Y') }}</td>
-                                            <td>{{ (training.durationActual / training.durationProposed) * 100 }}%</td>
+                                            <td>{{ ((training.durationActual / training.durationProposed) * 100)|round }}%</td>
                                             <td>{{ configureStatus(training) }}</td>
                                             <td>
                                                 {% if client is defined %}

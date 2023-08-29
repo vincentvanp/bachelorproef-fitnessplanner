@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\client\agenda;
+namespace App\Controller\client\training;
 
 use App\Controller\BaseController;
 use App\Form\datefilter\TrainingType;
@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OverviewController extends BaseController
 {
-    #[Route('/client/agenda/overview', name: 'app_client_agenda')]
+    #[Route('/client/agenda/overview', name: 'app_client')]
     public function clientAgenda(TrainingRepository $trainingRepository, Request $request): Response
     {
         $data = [
