@@ -13,6 +13,7 @@
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('sb-admin-2') }}
 		{% endblock %}
 	</head>
 <body id="page-top">
@@ -145,7 +146,6 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.firstname }} {{ app.user.lastname }}</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg"> <!-- TODO add image -->
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -153,10 +153,12 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="{{ path('app_account_email_pref') }}">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Email preferences
-                                </a>
+                                {% if is_granted('ROLE_CLIENT')%}
+                                    <a class="dropdown-item" href="{{ path('app_account_email_pref') }}">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Email preferences
+                                    </a>
+                                {% endif %}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ logout_url(key = null) }}">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -194,7 +196,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website 2021</span>
+                        <span>Copyright © FitPlanner 2023</span>
                     </div>
                 </div>
             </footer>
