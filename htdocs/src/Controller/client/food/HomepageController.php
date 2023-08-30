@@ -3,9 +3,8 @@
 namespace App\Controller\client\food;
 
 use App\Controller\BaseController;
+use App\Form\datefilter\FoodType;
 use App\Repository\FoodRepository;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,11 +15,7 @@ class HomepageController extends BaseController
     public function clientFood(FoodRepository $foodRepository, Request $request): Response
     {
         $data = ['date' => new \DateTime('now')];
-
-        $form = $this->createFormBuilder($data)
-            ->add('date', DateType::class)
-            ->add('send', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(FoodType::class, $data);
 
         $form->handleRequest($request);
 
@@ -33,7 +28,7 @@ class HomepageController extends BaseController
             'user' => $this->getUser(),
         ]);
 
-        return $this->render('client/food/index.html.twig', [
+        return $this->render('food/index.html.twig', [
             'foods' => $food,
             'dateFilter' => $form->createView(),
         ]);

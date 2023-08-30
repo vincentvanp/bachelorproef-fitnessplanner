@@ -61,8 +61,12 @@ class WeightIndexController extends BaseController
                     'month' => 'month',
                     'year' => 'year',
                 ],
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('filter', SubmitType::class)
+            ->add('filter', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary btn-sm text-white'],
+                'label' => 'Filter',
+            ])
             ->getForm();
     }
 

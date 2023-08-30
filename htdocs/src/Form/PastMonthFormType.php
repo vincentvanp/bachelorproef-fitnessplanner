@@ -30,13 +30,15 @@ class PastMonthFormType extends AbstractType
             $pastMonths[sprintf('%s - %d', date('F', mktime(0, 0, 0, $month, 1)), $year)] = "$year-$month";
         }
 
-        $builder->add('selected_month', ChoiceType::class, [
-            'label' => 'Select a Past Month',
+        $builder->add('selectedMonth', ChoiceType::class, [
             'choices' => $pastMonths, ])
-            ->add('save', SubmitType::class);
+            ->add('save', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary btn-sm text-white'],
+                'label' => 'Send me a report',
+             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => null,

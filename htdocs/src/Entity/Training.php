@@ -116,8 +116,13 @@ class Training
         return $this->commentClient;
     }
 
-    public function setCommentClient(string $commentClient): static
+    public function setCommentClient(?string $commentClient): static
     {
+        if (null == $commentClient) {
+            $this->commentClient = '';
+
+            return $this;
+        }
         $this->commentClient = $commentClient;
 
         return $this;

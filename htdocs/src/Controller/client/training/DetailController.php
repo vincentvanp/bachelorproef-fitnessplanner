@@ -12,7 +12,7 @@ class DetailController extends BaseController
     #[Route('/client/training/{id}', name: 'app_client_training_detail')]
     public function clientTrainingDetail(Training $training): Response
     {
-        return $this->render('client/training/detail.html.twig', [
+        return $this->render('training/detail.html.twig', [
             'client' => $this->getUser(),
             'training' => $training,
         ]);

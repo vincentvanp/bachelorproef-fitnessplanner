@@ -18,9 +18,10 @@ class DetailController extends BaseController
         #[MapEntity(expr: 'repository.find(training_id)')]
         Training $training): Response
     {
-        return $this->render('coach/client-management/training/detail/index.html.twig', [
+        return $this->render('training/detail.html.twig', [
             'client' => $client,
             'training' => $training,
+            'isCoach' => true,
         ]);
     }
 }

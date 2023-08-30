@@ -5,7 +5,7 @@ namespace App\Controller\coach\training;
 use App\Controller\BaseController;
 use App\Entity\Training;
 use App\Entity\User;
-use App\Form\TrainingType;
+use App\Form\training\coach\TrainingType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,15 +28,13 @@ class EditController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $training = $form->getData();
-            $training->setDurationActual(0);
-            $training->setWithTrainer(false);
             $entityManager->persist($training);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_coach_training_detail', ['client_id' => $client->getId(), 'training_id' => $training->getId()]);
         }
 
-        return $this->render('coach/client-management/training/edit/index.html.twig', [
+        return $this->render('training/coach/add.html.twig', [
             'form' => $form->createView(),
         ]);
     }

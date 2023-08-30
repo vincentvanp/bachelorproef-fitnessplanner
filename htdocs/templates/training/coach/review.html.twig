@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Training
+{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('app_coach_training', {'id': client.id}) }}" class="btn btn-sm btn-primary text-white" role="button">
+        Back to the overview
+    </a>
+
+    <h1 class="font-weight-normal mt-3">Review Training - {{ client.fullName }} - {{ training.startTime|date('d-m-Y') }}</h1>
+
+    <h3 class="font-weight-normal mt-4">{{ training.title }}</h3>
+
+    <h3 class="font-weight-normal mt-4">Description</h3>
+
+    <p>{{ training.description }}</p>
+
+    <h3 class="font-weight-normal mt-4">Duration</h3>
+
+    <p>
+        Proposed duration: {{ training.durationProposed }} <br>
+        Actual duration: {{ training.durationActual }} <br>
+    </p>
+
+    {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_row(form.commentCoach) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_widget(form.reviewed) }}
+            {{ form_label(form.reviewed, null, {'label_attr': {'class': 'form-check-label'}}) }}
+        </div>
+
+        {{ form_row(form.save) }}
+
+    {{ form_end(form) }}
+
+
+{% endblock %}

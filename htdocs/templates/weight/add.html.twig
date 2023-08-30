@@ -1,7 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditWeightController!{% endblock %}
+{% block title %}Weight{% endblock %}
 
 {% block body %}
-{{ form(form) }}
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_row(form.value) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.date, 'Add a date') }}<br>
+        {{ form_row(form.date) }}
+    </div>
+
+    {{ form_row(form.save) }}
+
+    {{ form_end(form) }}
 {% endblock %}
