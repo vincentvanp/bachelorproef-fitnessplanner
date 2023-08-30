@@ -61,7 +61,6 @@ class LandingPageController extends BaseController
         $tokenEntity = new TokenEntity();
         $tokenEntity->setToken(bin2hex(random_bytes(32)));
         $tokenEntity->setEmail($data['email']);
-        // $tokenEntity->setCoach($this->getUser());
         $tokenEntity->setExpiresAt(new \DateTime('now + 1 day'));
         $this->entityManager->persist($tokenEntity);
         $this->entityManager->flush();

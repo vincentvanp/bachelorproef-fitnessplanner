@@ -16,13 +16,34 @@ class FoodType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextAreaType::class)
-            ->add('date', DateType::class, [
-                'data' => new \DateTime('now'),
+            ->add('title', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Title',
+                ],
             ])
-            ->add('category', TextType::class)
-            ->add('save', SubmitType::class);
+            ->add('description', TextAreaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Give a short description of your meal.',
+                ],
+            ])
+            ->add('date', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+                'data' => new \DateTime('now'),
+                'label' => false,
+            ])
+            ->add('category', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Dinner, Snack, Breakfast,...',
+                ],
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Add Meal',
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

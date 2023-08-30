@@ -1,34 +1,30 @@
 <?php
 
-namespace App\Controller\client\agenda;
+namespace App\Controller\client\training;
 
 use App\Controller\BaseController;
+use App\Form\datefilter\TrainingType;
 use App\Repository\TrainingRepository;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OverviewController extends BaseController
 {
-    #[Route('/client/agenda/overview', name: 'app_client_agenda')]
+    #[Route('/client/agenda/overview', name: 'app_client')]
     public function clientAgenda(TrainingRepository $trainingRepository, Request $request): Response
     {
         $data = [
-            'start' => new \DateTime('now'),
-            'end' => new \DateTime('now + 1 week'),
+            'start' => new \DateTime('now 00:00'),
+            'end' => new \DateTime('now + 1 week 23:59'),
         ];
-        $form = $this->createFormBuilder($data)
-            ->add('start', DateTimeType::class)
-            ->add('end', DateTimeType::class)
-            ->add('send', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(TrainingType::class, $data);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $data['end']->modify('+1 day');
         }
 
         $trainings = $trainingRepository->findTrainings(
@@ -37,7 +33,7 @@ class OverviewController extends BaseController
             clientId: $this->getUser()->getId(),
         );
 
-        return $this->render('client/calendar/index.html.twig', [
+        return $this->render('training/index.html.twig', [
             'trainings' => $trainings,
             'dateFilter' => $form->createView(),
         ]);

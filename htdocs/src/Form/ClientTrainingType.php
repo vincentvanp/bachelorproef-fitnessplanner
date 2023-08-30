@@ -23,9 +23,25 @@ class ClientTrainingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('durationActual', IntegerType::class)
+            ->add('title', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Title',
+                ],
+            ])
+            ->add('description', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Give a short description of your training.',
+                ],
+            ])
+            ->add('durationActual', IntegerType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Actual duration in minutes',
+                ],
+                'label' => 'Actual duration (minutes)',
+            ])
             ->add('coach', EntityType::class, [
                 'expanded' => true,
                 'multiple' => false,
@@ -36,16 +52,21 @@ class ClientTrainingType extends AbstractType
                 },
             ])
             ->add('startTime', DateTimeType::class, [
-                'placeholder' => [
-                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
-                    'hour' => 'Hour', 'minute' => 'Minute',
-                ],
+                'widget' => 'single_text',
+                'html5' => true,
                 'data' => new \DateTime('now'),
             ])
-            ->add('commentClient', TextareaType::class)
+            ->add('commentClient', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Add a comment for the coach.',
+                ],
+                'label' => 'Comment for your coach (optional)',
+                'required' => false,
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Add Training',
-                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4'],
+                'attr' => ['class' => 'btn btn-info btn-lg btn-block w-100 mt-4 text-white'],
             ]);
     }
 

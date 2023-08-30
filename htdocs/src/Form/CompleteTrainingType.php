@@ -20,13 +20,24 @@ class CompleteTrainingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('durationActual', IntegerType::class)
-            ->add('commentClient', TextareaType::class)
-            ->add('startTime', DateTimeType::class, [
-                'placeholder' => [
-                    'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
-                    'hour' => 'Hour', 'minute' => 'Minute',
+            ->add('durationActual', IntegerType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Actual duration in minutes',
                 ],
+                'label' => 'Actual duration (minutes)',
+            ])
+            ->add('commentClient', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Add a comment for the coach.',
+                ],
+                'label' => 'Comment for your coach (optional)',
+                'required' => false,
+            ])
+            ->add('startTime', DateTimeType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
                 'data' => new \DateTime('now'),
             ])
             ->add('save', SubmitType::class, [

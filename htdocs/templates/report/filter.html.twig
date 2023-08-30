@@ -1,10 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CoachAgendaController!
+{% block title %}Report
 {% endblock %}
 
 {% block body %}
 
-{{ form(form) }}
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="mt-1 font-weight-bold text-primary">Request a report</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div>
+                        <div class="col-sm-12">
+                           <h2>Progress reports</h2>
+                            <p>
+                                Always nice to see how you did last month. If you would like to see your progress, use the form below to
+                                enter the month that you are interested in. Since generating a report is a resource-intensive task for the server,
+                                it might take some time before you receive an email with the requested report.
+                                If you wish to receive these reports on a monthly basis, you can enable this option in your email preferences.
+                            </p>
+
+                            {{ form_start(form) }}
+                            <div class="row mb-4 mt-4 justify-content-lg-start">
+                                <div class="col-4">
+                                    {{ form_label(form.selectedMonth, 'Select a month ') }}:
+                                    {{ form_widget(form.selectedMonth) }}
+                                </div>
+
+                                <div class="col-3">
+                                    {{ form_row(form.save) }}
+                                </div>
+
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

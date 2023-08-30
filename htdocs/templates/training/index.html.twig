@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Training{% endblock %}
+
+{% block body %}
+    {{ form_start(dateFilter) }}
+        <div class="row mb-4 mt-4 justify-content-lg-start">
+            <div class="col-3">
+                {{ form_label(dateFilter.start, 'Start') }}:
+                {{ form_widget(dateFilter.start) }}
+            </div>
+            <div class="col-3">
+                {{ form_label(dateFilter.end, 'End') }}:
+                {{ form_widget(dateFilter.end) }}
+            </div>
+
+            <div class="col-3">
+                {{ form_row(dateFilter.send) }}
+            </div>
+
+        </div>
+    {{ form_end(dateFilter) }}
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between">
+                <h6 class="mt-1 font-weight-bold text-primary">Trainings</h6>
+                {% if client is defined %}
+                    <a href="{{ path('app_coach_training_add', {'id': client.id, 'withTrainer': 0}) }}" class="btn btn-sm btn-primary text-white float-end" role="button">
+                        Add a training for {{ client.firstName }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('app_client_agenda_add') }}" class="btn btn-sm btn-primary text-white float-end" role="button">Add a training</a>
+                {% endif %}
+
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div>
+                            <div class="col-sm-12">
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" style="width: 100%;">
+                                    <thead>
+                                    <tr role="row">
+                                        <th style="width: 20%;">Title</th>
+                                        <th style="width: 10%;">PT Session?</th>
+                                        <th style="width: 10%;">Date</th>
+                                        <th style="width: 20%;">Duration completion</th>
+                                        <th style="width: 10%;">Status</th>
+                                        {% if client is defined %}
+                                            <th style="width: 10%;">Review</th>
+                                        {% else %}
+                                            <th style="width: 10%;">Complete</th>
+                                        {% endif %}
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for training in trainings %}
+                                        <tr>
+                                            <td>
+                                                <a href="
+                                                {% if client is defined %}
+                                                    {{ path('app_coach_training_detail', {'training_id': training.id, 'client_id': client.id}) }}
+                                                {% else %}
+                                                    {{ path('app_client_training_detail', {'id': training.id}) }}
+                                                {% endif %}">{{ training.title }}</a>
+
+                                            </td>
+                                            <td>
+                                                {% if training.isWithTrainer %}
+                                                    yes
+                                                {% else %}
+                                                    no
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ training.startTime|date('d-m-Y') }}</td>
+                                            <td>{{ ((training.durationActual / training.durationProposed) * 100)|round }}%</td>
+                                            <td>{{ configureStatus(training) }}</td>
+                                            <td>
+                                                {% if client is defined %}
+                                                    <a href="{{ path('app_coach_training_review', {'client_id': client.id, 'training_id': training.id }) }}">Review</a>
+                                                {% else %}
+                                                    <a href="{{ path('app_client_training_complete', {'id': training.id}) }}">Complete</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

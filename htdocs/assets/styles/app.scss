@@ -10,7 +10,10 @@
     background-repeat: no-repeat;
     background-position: right center;
     background-size: auto 100%;
-    }
+}
+.table {
+    --bs-table-accent-bg: white!important;
+}
     
 @media (min-width: 1025px) {
     .h-custom-2 {

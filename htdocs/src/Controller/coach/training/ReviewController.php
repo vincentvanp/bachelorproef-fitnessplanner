@@ -5,7 +5,7 @@ namespace App\Controller\coach\training;
 use App\Controller\BaseController;
 use App\Entity\Training;
 use App\Entity\User;
-use App\Form\ReviewTrainingType;
+use App\Form\training\coach\ReviewTrainingType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +23,7 @@ class ReviewController extends BaseController
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
+        $training->setReviewed(true);
         $form = $this->createForm(ReviewTrainingType::class, $training);
 
         $form->handleRequest($request);
@@ -35,7 +36,7 @@ class ReviewController extends BaseController
             return $this->redirectToRoute('app_coach_training', ['id' => $client->getId()]);
         }
 
-        return $this->render('coach/client-management/training/review/index.html.twig', [
+        return $this->render('training/coach/review.html.twig', [
             'client' => $client,
             'training' => $training,
             'form' => $form->createView(),

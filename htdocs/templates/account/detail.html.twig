@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CoachAgendaController!
+{% block title %}Account info
 {% endblock %}
 
 {% block body %}
@@ -13,9 +13,17 @@
 
     <div><b>Registered email:</b> {{ user.email }} </div>
 
-    <div><a href="{{ path('app_account_edit') }}">Change your info</a></div>
+    <div class="row mt-4 d-flex justify-content-start">
+        <div class="col-2">
+            <a href="{{ path('app_account_edit') }}" class="btn btn-sm btn-primary text-white" role="button">Change your info</a>
+        </div>
+        <div class="col-2">
+            <a href="{{ path('app_account_reset_request') }}" class="btn btn-sm btn-primary text-white" role="button">Reset your password</a>
+        </div>
+    </div>
 
-    <div><a href="{{ path('app_account_reset_request') }}">Change your password</a></div>
+
+
 
 
 {% endblock %}

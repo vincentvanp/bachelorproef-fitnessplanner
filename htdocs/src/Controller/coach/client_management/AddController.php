@@ -4,11 +4,9 @@ namespace App\Controller\coach\client_management;
 
 use App\Controller\BaseController;
 use App\Entity\TokenEntity;
+use App\Form\client_management\InviteClientType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -25,12 +23,7 @@ class AddController extends BaseController
     #[Route('/coach/add/client', name: 'app_coach_client_add')]
     public function addClient(Request $request): Response
     {
-        $defaultData = ['message' => 'Type your message here'];
-        $form = $this->createFormBuilder($defaultData)
-            ->add('email', EmailType::class)
-            ->add('message', TextareaType::class)
-            ->add('send', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(InviteClientType::class);
 
         $form->handleRequest($request);
 
